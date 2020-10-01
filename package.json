@@ -1,9 +1,15 @@
 {
-  "name": "@rotaro/root",
-  "version": "0.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:tsukiy0/rotaro.git",
-  "author": "tsukiy0 <tsukiy0@users.noreply.github.com>",
-  "license": "MIT",
-  "private": true
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/@rotaro/tools",
+      "**/@rotaro/tools/**"
+    ]
+  },
+  "devDependencies": {
+    "lerna": "3.22.1"
+  }
 }
