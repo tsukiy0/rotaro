@@ -11,5 +11,16 @@
   },
   "devDependencies": {
     "lerna": "3.22.1"
+  },
+  "scripts": {
+    "start": "lerna run start",
+    "typecheck": "lerna run typecheck",
+    "preclean": "lerna run clean",
+    "clean": "lerna exec -- rm -rf node_modules",
+    "prebuild": "lerna run clean",
+    "build": "lerna run build",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix",
+    "test": "lerna run test"
   }
 }
