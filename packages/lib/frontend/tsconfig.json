@@ -1,0 +1,7 @@
+{
+  "extends": "@rotaro/tools/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  }
+}
