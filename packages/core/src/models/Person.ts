@@ -35,8 +35,11 @@ export class Person implements Comparable {
   };
 }
 
-export const PersonRandomizer: Randomizer<Person> = {
-  random: (): Person => {
-    return new Person(PersonIdRandomizer.random(), StringRandomizer.random());
+export const PersonRandomizer = {
+  random: (partial?: Partial<Person>): Person => {
+    return new Person(
+      partial?.id ?? PersonIdRandomizer.random(),
+      partial?.name ?? StringRandomizer.random(),
+    );
   },
 };
