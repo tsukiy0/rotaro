@@ -1,7 +1,7 @@
 import { Roster, RosterId } from "../models/Roster";
 
 export interface RosterService {
-  createRoster(roster: Roster): void;
-  deleteRoster(rosterId: RosterId): void;
-  moveForward(rosterId: RosterId): void;
+  createRoster(roster: Roster): Promise<void>;
+  deleteRoster(rosterId: RosterId): Promise<void>;
+  moveForward(rosterId: RosterId): Promise<void>;
 }
