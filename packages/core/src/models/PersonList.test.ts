@@ -1,24 +1,20 @@
 import { testComparable } from "@tsukiy0/tscore/dist/models/Comparable.testTemplate";
-import { PersonIdRandomizer, PersonRandomizer } from "./Person";
+import { Person, PersonIdRandomizer } from "./Person";
 import { DuplicatePersonError, PersonList } from "./PersonList";
 
 describe("PersonList", () => {
   testComparable(
     () =>
-      new PersonList([PersonRandomizer.random(), PersonRandomizer.random()]),
+      new PersonList([
+        new Person(PersonIdRandomizer.random(), "bob"),
+        new Person(PersonIdRandomizer.random(), "jim"),
+      ]),
   );
 
   it("throws when has person with duplicate id", () => {
     expect(() => {
       const id = PersonIdRandomizer.random();
-      new PersonList([
-        PersonRandomizer.random({
-          id,
-        }),
-        PersonRandomizer.random({
-          id,
-        }),
-      ]);
+      new PersonList([new Person(id, "bob"), new Person(id, "jim")]);
     }).toThrowError(DuplicatePersonError);
   });
 });
