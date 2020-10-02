@@ -22,6 +22,7 @@
     "build": "lerna run build",
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "deploy": "lerna run deploy"
   }
 }
