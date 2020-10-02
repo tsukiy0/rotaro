@@ -132,11 +132,13 @@ export class DynamoRosterRepository implements RosterRepository {
   public readonly updateRoster = this.createRoster;
 
   public readonly deleteRoster = async (rosterId: RosterId): Promise<void> => {
-    await this.dynamo.delete({
-      TableName: this.tableName,
-      Key: {
-        id: rosterId.toString(),
-      },
-    });
+    await this.dynamo
+      .delete({
+        TableName: this.tableName,
+        Key: {
+          id: rosterId.toString(),
+        },
+      })
+      .promise();
   };
 }

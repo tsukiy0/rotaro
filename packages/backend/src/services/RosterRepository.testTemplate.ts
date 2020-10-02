@@ -13,7 +13,7 @@ import {
 import { RosterRepository } from "./RosterRepository";
 
 export const testRosterRepository = (
-  setup: () => Promise<RosterRepository>,
+  setup: (run: (repo: RosterRepository) => Promise<void>) => Promise<void>,
 ): void => {
   const buildRoster = (partial?: Partial<Roster>) => {
     const personId = PersonIdRandomizer.random();
@@ -33,63 +33,68 @@ export const testRosterRepository = (
 
   describe("getRoster", () => {
     it("get existing", async () => {
-      const repo = await setup();
-      const roster = buildRoster();
-      await repo.createRoster(roster);
+      await setup(async (repo) => {
+        const roster = buildRoster();
+        await repo.createRoster(roster);
 
-      const actual = await repo.getRoster(roster.id);
+        const actual = await repo.getRoster(roster.id);
 
-      expect(actual?.equals(roster)).toBeTruthy();
+        expect(actual?.equals(roster)).toBeTruthy();
+      });
     });
 
     it("not get non-existant", async () => {
-      const repo = await setup();
-      const roster = buildRoster();
+      await setup(async (repo) => {
+        const roster = buildRoster();
 
-      const actual = await repo.getRoster(roster.id);
+        const actual = await repo.getRoster(roster.id);
 
-      expect(actual).toBeUndefined();
+        expect(actual).toBeUndefined();
+      });
     });
   });
 
   describe("createRoster", () => {
     it("create", async () => {
-      const repo = await setup();
-      const roster = buildRoster();
-      await repo.createRoster(roster);
+      await setup(async (repo) => {
+        const roster = buildRoster();
+        await repo.createRoster(roster);
 
-      const actual = await repo.getRoster(roster.id);
+        const actual = await repo.getRoster(roster.id);
 
-      expect(actual?.equals(roster)).toBeTruthy();
+        expect(actual?.equals(roster)).toBeTruthy();
+      });
     });
   });
 
   describe("updateRoster", () => {
     it("update existing", async () => {
-      const repo = await setup();
-      const roster1 = buildRoster();
-      const roster2 = buildRoster({
-        id: roster1.id,
+      await setup(async (repo) => {
+        const roster1 = buildRoster();
+        const roster2 = buildRoster({
+          id: roster1.id,
+        });
+        await repo.createRoster(roster1);
+
+        await repo.updateRoster(roster2);
+        const actual = await repo.getRoster(roster1.id);
+
+        expect(actual?.equals(roster2)).toBeTruthy();
       });
-      await repo.createRoster(roster1);
-
-      await repo.updateRoster(roster2);
-      const actual = await repo.getRoster(roster1.id);
-
-      expect(actual?.equals(roster2)).toBeTruthy();
     });
   });
 
   describe("deleteRoster", () => {
     it("delete existing", async () => {
-      const repo = await setup();
-      const roster = buildRoster();
-      await repo.createRoster(roster);
+      await setup(async (repo) => {
+        const roster = buildRoster();
+        await repo.createRoster(roster);
 
-      await repo.deleteRoster(roster.id);
-      const actual = await repo.getRoster(roster.id);
+        await repo.deleteRoster(roster.id);
+        const actual = await repo.getRoster(roster.id);
 
-      expect(actual).toBeUndefined();
+        expect(actual).toBeUndefined();
+      });
     });
   });
 };
