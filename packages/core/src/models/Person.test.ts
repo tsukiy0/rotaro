@@ -1,9 +1,9 @@
 import { testComparable } from "@tsukiy0/tscore/dist/models/Comparable.testTemplate";
 import {
-  Person,
   PersonIdRandomizer,
   PersonRandomizer,
   PersonNameTooLongError,
+  PersonDaysMustBeGreaterThanZeroError,
 } from "./Person";
 
 describe("PersonId", () => {
@@ -15,7 +15,25 @@ describe("Person", () => {
 
   it("throws when name too long", () => {
     expect(() => {
-      new Person(PersonIdRandomizer.random(), "111111111111111111111");
+      PersonRandomizer.random({
+        name: "111111111111111111111",
+      });
     }).toThrowError(PersonNameTooLongError);
+  });
+
+  it("throws when 0 days", () => {
+    expect(() => {
+      PersonRandomizer.random({
+        days: 0,
+      });
+    }).toThrowError(PersonDaysMustBeGreaterThanZeroError);
+  });
+
+  it("throws when negative days", () => {
+    expect(() => {
+      PersonRandomizer.random({
+        days: -1,
+      });
+    }).toThrowError(PersonDaysMustBeGreaterThanZeroError);
   });
 });

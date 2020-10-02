@@ -3,6 +3,7 @@ import {
   Comparable,
   Guid,
   GuidRandomizer,
+  NumberRandomizer,
   Randomizer,
   StringRandomizer,
 } from "@tsukiy0/tscore";
@@ -23,15 +24,35 @@ export class PersonNameTooLongError extends BaseError {
   }
 }
 
+export class PersonDaysMustBeGreaterThanZeroError extends BaseError {
+  constructor(days: number) {
+    super({
+      days,
+    });
+  }
+}
+
 export class Person implements Comparable {
-  constructor(public readonly id: PersonId, public readonly name: string) {
+  constructor(
+    public readonly id: PersonId,
+    public readonly name: string,
+    public readonly days: number,
+  ) {
     if (name.length > 20) {
       throw new PersonNameTooLongError(name);
+    }
+
+    if (days <= 0) {
+      throw new PersonDaysMustBeGreaterThanZeroError(days);
     }
   }
 
   public readonly equals = (input: this): boolean => {
-    return this.id.equals(input.id) && this.name === input.name;
+    return (
+      this.id.equals(input.id) &&
+      this.name === input.name &&
+      this.days === input.days
+    );
   };
 }
 
@@ -40,6 +61,7 @@ export const PersonRandomizer = {
     return new Person(
       partial?.id ?? PersonIdRandomizer.random(),
       partial?.name ?? StringRandomizer.random(),
+      partial?.days ?? NumberRandomizer.random(),
     );
   },
 };
