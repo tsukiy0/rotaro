@@ -1,0 +1,27 @@
+{
+  "name": "@rotaro/deployment",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "@rotaro/tools": "*",
+    "aws-cdk": "1.64.1"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-cloudfront": "1.64.1",
+    "@aws-cdk/aws-s3": "1.64.1",
+    "@aws-cdk/aws-s3-deployment": "1.64.1",
+    "@aws-cdk/core": "1.64.1",
+    "@tsukiy0/tscore": "1.0.0"
+  },
+  "scripts": {
+    "typecheck": "tsc",
+    "lint": "eslint \"./src/**/*.{ts,tsx}\"",
+    "lint:fix": "yarn lint --fix",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "build": "tsc --build .",
+    "deploy": "cdk bootstrap && cdk deploy --require-approval never"
+  }
+}
