@@ -3,7 +3,6 @@ import {
   Comparable,
   Guid,
   GuidRandomizer,
-  NumberRandomizer,
   Randomizer,
   StringRandomizer,
 } from "@tsukiy0/tscore";
