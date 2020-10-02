@@ -9,6 +9,7 @@
     "@rotaro/tools": "*"
   },
   "dependencies": {
+    "@tsukiy0/tscore": "1.0.0"
   },
   "scripts": {
     "typecheck": "tsc",
