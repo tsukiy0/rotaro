@@ -25,9 +25,31 @@ describe("DynamoRosterRepository", () => {
             KeyType: "HASH",
           },
         ],
+        GlobalSecondaryIndexes: [
+          {
+            IndexName: "scheduleHour_id",
+            KeySchema: [
+              {
+                AttributeName: "scheduleHour",
+                KeyType: "HASH",
+              },
+              {
+                AttributeName: "id",
+                KeyType: "SORT",
+              },
+            ],
+            Projection: {
+              ProjectionType: "ALL",
+            },
+          },
+        ],
         AttributeDefinitions: [
           {
             AttributeName: "id",
+            AttributeType: "S",
+          },
+          {
+            AttributeName: "scheduleHour",
             AttributeType: "S",
           },
         ],

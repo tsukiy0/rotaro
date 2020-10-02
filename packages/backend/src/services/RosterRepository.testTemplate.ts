@@ -9,6 +9,7 @@ import {
   Days,
   Schedule,
   Hour,
+  Day,
 } from "@rotaro/core";
 import { RosterRepository } from "./RosterRepository";
 
@@ -94,6 +95,83 @@ export const testRosterRepository = (
         const actual = await repo.getRoster(roster.id);
 
         expect(actual).toBeUndefined();
+      });
+    });
+  });
+
+  describe("listRostersByDayAndHour", () => {
+    it("filter by hours", async () => {
+      await setup(async (repo) => {
+        const roster1 = buildRoster({
+          schedule: new Schedule(
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            Hour._01,
+          ),
+        });
+        const roster2 = buildRoster({
+          schedule: new Schedule(
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            Hour._02,
+          ),
+        });
+        await repo.createRoster(roster1);
+        await repo.createRoster(roster2);
+
+        const actual = await repo.listRostersByDayAndHour(Day.MONDAY, Hour._02);
+
+        expect(actual).toHaveLength(1);
+        expect(actual[0].equals(roster2)).toBeTruthy();
+      });
+    });
+
+    it("filter by day", async () => {
+      await setup(async (repo) => {
+        const roster1 = buildRoster({
+          schedule: new Schedule(
+            false,
+            false,
+            true,
+            false,
+            false,
+            false,
+            false,
+            Hour._01,
+          ),
+        });
+        const roster2 = buildRoster({
+          schedule: new Schedule(
+            false,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            Hour._01,
+          ),
+        });
+        await repo.createRoster(roster1);
+        await repo.createRoster(roster2);
+
+        const actual = await repo.listRostersByDayAndHour(
+          Day.TUESDAY,
+          Hour._01,
+        );
+
+        expect(actual).toHaveLength(1);
+        expect(actual[0].equals(roster2)).toBeTruthy();
       });
     });
   });

@@ -9,12 +9,15 @@ import {
   PersonDays,
   Days,
   hourFromString,
+  Hour,
+  Day,
 } from "@rotaro/core";
 import { DynamoDB } from "aws-sdk";
 import { RosterRepository } from "./RosterRepository";
 
 type RosterDocument = {
   id: string;
+  scheduleHour: string;
   rotation: {
     personList: readonly {
       id: string;
@@ -62,38 +65,13 @@ export class DynamoRosterRepository implements RosterRepository {
 
     const item = res.Item as RosterDocument;
 
-    return new Roster(
-      RosterId.fromString(item.id),
-      new PersonRotation(
-        new PersonList(
-          item.rotation.personList.map((_) => {
-            return new Person(PersonId.fromString(_.id), _.name);
-          }),
-        ),
-        item.rotation.rotation.map((_) => {
-          return new PersonDays(
-            PersonId.fromString(_.personId),
-            new Days(_.days),
-          );
-        }),
-        new Days(item.rotation.cursor),
-      ),
-      new Schedule(
-        item.schedule.monday,
-        item.schedule.tuesday,
-        item.schedule.wednesday,
-        item.schedule.thursday,
-        item.schedule.friday,
-        item.schedule.saturday,
-        item.schedule.sunday,
-        hourFromString(item.schedule.hour),
-      ),
-    );
+    return this.fromRosterDocument(item);
   };
 
   public readonly createRoster = async (roster: Roster): Promise<void> => {
     const document: RosterDocument = {
       id: roster.id.toString(),
+      scheduleHour: roster.schedule.hour,
       rotation: {
         personList: roster.rotation.personList.items.map((_) => {
           return {
@@ -140,5 +118,79 @@ export class DynamoRosterRepository implements RosterRepository {
         },
       })
       .promise();
+  };
+
+  public readonly listRostersByDayAndHour = async (
+    day: Day,
+    hour: Hour,
+  ): Promise<readonly Roster[]> => {
+    const result = await this.dynamo
+      .query({
+        TableName: this.tableName,
+        IndexName: "scheduleHour_id",
+        KeyConditionExpression: "#hashName = :hashValue",
+        ExpressionAttributeNames: {
+          "#hashName": "scheduleHour",
+        },
+        ExpressionAttributeValues: {
+          ":hashValue": hour,
+        },
+      })
+      .promise();
+
+    if (!result.Items) {
+      return [];
+    }
+
+    return result.Items.map((_) => {
+      return this.fromRosterDocument(_ as RosterDocument);
+    }).filter((_) => {
+      switch (day) {
+        case Day.MONDAY:
+          return _.schedule.monday;
+        case Day.TUESDAY:
+          return _.schedule.tuesday;
+        case Day.WEDNESDAY:
+          return _.schedule.wednesday;
+        case Day.THURSDAY:
+          return _.schedule.thursday;
+        case Day.FRIDAY:
+          return _.schedule.friday;
+        case Day.SATURDAY:
+          return _.schedule.saturday;
+        case Day.SUNDAY:
+          return _.schedule.sunday;
+      }
+    });
+  };
+
+  private readonly fromRosterDocument = (doc: RosterDocument): Roster => {
+    return new Roster(
+      RosterId.fromString(doc.id),
+      new PersonRotation(
+        new PersonList(
+          doc.rotation.personList.map((_) => {
+            return new Person(PersonId.fromString(_.id), _.name);
+          }),
+        ),
+        doc.rotation.rotation.map((_) => {
+          return new PersonDays(
+            PersonId.fromString(_.personId),
+            new Days(_.days),
+          );
+        }),
+        new Days(doc.rotation.cursor),
+      ),
+      new Schedule(
+        doc.schedule.monday,
+        doc.schedule.tuesday,
+        doc.schedule.wednesday,
+        doc.schedule.thursday,
+        doc.schedule.friday,
+        doc.schedule.saturday,
+        doc.schedule.sunday,
+        hourFromString(doc.schedule.hour),
+      ),
+    );
   };
 }
