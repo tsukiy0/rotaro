@@ -3,7 +3,6 @@ import {
   PersonIdRandomizer,
   PersonRandomizer,
   PersonNameTooLongError,
-  PersonDaysMustBeGreaterThanZeroError,
 } from "./Person";
 
 describe("PersonId", () => {
@@ -19,21 +18,5 @@ describe("Person", () => {
         name: "111111111111111111111",
       });
     }).toThrowError(PersonNameTooLongError);
-  });
-
-  it("throws when 0 days", () => {
-    expect(() => {
-      PersonRandomizer.random({
-        days: 0,
-      });
-    }).toThrowError(PersonDaysMustBeGreaterThanZeroError);
-  });
-
-  it("throws when negative days", () => {
-    expect(() => {
-      PersonRandomizer.random({
-        days: -1,
-      });
-    }).toThrowError(PersonDaysMustBeGreaterThanZeroError);
   });
 });

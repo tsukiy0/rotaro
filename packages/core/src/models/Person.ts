@@ -7,6 +7,7 @@ import {
   Randomizer,
   StringRandomizer,
 } from "@tsukiy0/tscore";
+import { Days, DaysRandomizer } from "./Days";
 
 export class PersonId extends Guid {}
 
@@ -24,34 +25,22 @@ export class PersonNameTooLongError extends BaseError {
   }
 }
 
-export class PersonDaysMustBeGreaterThanZeroError extends BaseError {
-  constructor(days: number) {
-    super({
-      days,
-    });
-  }
-}
-
 export class Person implements Comparable {
   constructor(
     public readonly id: PersonId,
+    public readonly days: Days,
     public readonly name: string,
-    public readonly days: number,
   ) {
     if (name.length > 20) {
       throw new PersonNameTooLongError(name);
-    }
-
-    if (days <= 0) {
-      throw new PersonDaysMustBeGreaterThanZeroError(days);
     }
   }
 
   public readonly equals = (input: this): boolean => {
     return (
       this.id.equals(input.id) &&
-      this.name === input.name &&
-      this.days === input.days
+      this.days === input.days &&
+      this.name === input.name
     );
   };
 }
@@ -60,8 +49,8 @@ export const PersonRandomizer = {
   random: (partial?: Partial<Person>): Person => {
     return new Person(
       partial?.id ?? PersonIdRandomizer.random(),
+      partial?.days ?? DaysRandomizer.random(),
       partial?.name ?? StringRandomizer.random(),
-      partial?.days ?? NumberRandomizer.random(),
     );
   },
 };
