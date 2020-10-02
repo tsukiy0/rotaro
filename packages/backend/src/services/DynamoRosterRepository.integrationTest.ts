@@ -1,18 +1,20 @@
 import { StringRandomizer, SystemConfig } from "@tsukiy0/tscore";
-import { DynamoDB } from "aws-sdk";
+import { CredentialProviderChain, Credentials, DynamoDB } from "aws-sdk";
 import { DynamoRosterRepository } from "./DynamoRosterRepository";
 import { testRosterRepository } from "./RosterRepository.testTemplate";
 
 describe("DynamoRosterRepository", () => {
   testRosterRepository(async (callback) => {
     const config = new SystemConfig();
-    const endpoint = config.get("DYNAMODB_URL");
     const tableName = StringRandomizer.random();
-    const region = "us-east-1";
-    const normalDynamo = new DynamoDB({
-      endpoint,
-      region,
-    });
+    const options: DynamoDB.ClientConfiguration = {
+      endpoint: config.get("DYNAMODB_URL"),
+      region: "us-east-1",
+      credentialProvider: new CredentialProviderChain([
+        () => new Credentials("", ""),
+      ]),
+    };
+    const normalDynamo = new DynamoDB(options);
 
     await normalDynamo
       .createTable({
@@ -34,10 +36,7 @@ describe("DynamoRosterRepository", () => {
       .promise();
 
     const repo = new DynamoRosterRepository(
-      new DynamoDB.DocumentClient({
-        endpoint,
-        region,
-      }),
+      new DynamoDB.DocumentClient(options),
       tableName,
     );
 
