@@ -5,3 +5,4 @@ export * from "./models/PersonList";
 export * from "./models/PersonRotation";
 export * from "./models/Roster";
 export * from "./models/Schedule";
+export * from "./services/RosterService";
