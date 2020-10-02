@@ -22,6 +22,7 @@
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
     "test": "lerna run test",
+    "test:integration": "echo \"integration\"",
     "deploy": "lerna run deploy"
   }
 }
