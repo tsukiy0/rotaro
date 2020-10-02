@@ -5,6 +5,7 @@ import { PersonDays } from "./PersonDays";
 import { PersonList } from "./PersonList";
 import { PersonRotation } from "./PersonRotation";
 import { Roster, RosterIdRandomizer } from "./Roster";
+import { Schedule, Hour } from "./Schedule";
 
 describe("Roster", () => {
   testComparable(() => {
@@ -16,6 +17,7 @@ describe("Roster", () => {
         [new PersonDays(personId, new Days(2))],
         new Days(1),
       ),
+      new Schedule(true, true, true, true, true, false, false, Hour._14),
     );
   });
 });
