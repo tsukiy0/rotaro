@@ -1,0 +1,26 @@
+{
+  "name": "@rotaro/web",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "@rotaro/tools": "*",
+    "@types/react": "16.9.50",
+    "@types/react-dom": "16.9.8",
+    "eslint-plugin-react": "7.21.2"
+  },
+  "dependencies": {
+    "next": "9.5.3",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "scripts": {
+    "start": "next",
+    "typecheck": "tsc",
+    "lint": "eslint \"./src/**/*.{ts,tsx}\"",
+    "lint:fix": "yarn lint --fix",
+    "clean": "rm -rf .next out tsconfig.tsbuildinfo",
+    "build": "next build && next export",
+    "test": "jest"
+  }
+}
