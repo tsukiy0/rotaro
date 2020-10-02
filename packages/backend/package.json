@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@rotaro/core": "*",
-    "@tsukiy0/tscore": "1.0.0"
+    "@tsukiy0/tscore": "1.0.0",
+    "aws-sdk": "2.765.0"
   },
   "scripts": {
     "typecheck": "tsc",

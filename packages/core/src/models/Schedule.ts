@@ -1,4 +1,4 @@
-import { Comparable } from "@tsukiy0/tscore";
+import { BaseError, Comparable } from "@tsukiy0/tscore";
 
 export enum Hour {
   _01 = "01",
@@ -26,6 +26,24 @@ export enum Hour {
   _23 = "23",
   _24 = "24",
 }
+
+export class BadHourStringError extends BaseError {
+  constructor(public readonly input: string) {
+    super({
+      input,
+    });
+  }
+}
+
+export const hourFromString = (input: string): Hour => {
+  for (const value of Object.values(Hour)) {
+    if (value === input) {
+      return value;
+    }
+  }
+
+  throw new BadHourStringError(input);
+};
 
 export class Schedule implements Comparable {
   constructor(
