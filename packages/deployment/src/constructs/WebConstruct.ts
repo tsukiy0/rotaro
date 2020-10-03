@@ -42,6 +42,12 @@ export class WebConstruct extends Construct {
               minTtl: Duration.minutes(0),
               maxTtl: Duration.minutes(0),
             },
+            {
+              pathPattern: "config.json",
+              defaultTtl: Duration.minutes(0),
+              minTtl: Duration.minutes(0),
+              maxTtl: Duration.minutes(0),
+            },
           ],
         },
       ],

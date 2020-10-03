@@ -3,3 +3,4 @@
 set -euxo pipefail
 
 yarn deploy
+
