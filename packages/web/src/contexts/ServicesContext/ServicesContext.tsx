@@ -23,15 +23,13 @@ export const ServicesContextProvider: React.FC<BaseProps> = ({
       const apiUrl = config.get("API_URL");
       const rosterService = FrontendRosterService.default(apiUrl);
 
-      await new Promise((resolve) => setTimeout(resolve, 4000));
-
       setServices({
         rosterService,
       });
     };
 
     fn();
-  }, []);
+  }, [config]);
 
   if (!services) {
     return <LoadingPage className={className} />;
