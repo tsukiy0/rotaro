@@ -4,9 +4,25 @@ import {
   Guid,
   GuidRandomizer,
   Randomizer,
+  Serializer,
 } from "@tsukiy0/tscore";
 
 export class PersonId extends Guid {}
+
+export type PersonIdJson = {
+  value: string;
+};
+
+export const PersonIdSerializer: Serializer<PersonId, PersonIdJson> = {
+  serialize: (input) => {
+    return {
+      value: input.toString(),
+    };
+  },
+  deserialize: (input) => {
+    return PersonId.fromString(input.value);
+  },
+};
 
 export const PersonIdRandomizer: Randomizer<PersonId> = {
   random: (): PersonId => {
@@ -33,3 +49,20 @@ export class Person implements Comparable {
     return this.id.equals(input.id) && this.name === input.name;
   };
 }
+
+export type PersonJson = {
+  id: PersonIdJson;
+  name: string;
+};
+
+export const PersonSerializer: Serializer<Person, PersonJson> = {
+  serialize: (input) => {
+    return {
+      id: PersonIdSerializer.serialize(input.id),
+      name: input.name,
+    };
+  },
+  deserialize: (input) => {
+    return new Person(PersonIdSerializer.deserialize(input.id), input.name);
+  },
+};

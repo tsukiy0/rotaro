@@ -1,4 +1,5 @@
 import { testComparable } from "@tsukiy0/tscore/dist/models/Comparable.testTemplate";
+import { testSerializer } from "@tsukiy0/tscore/dist/models/Serializer.testTemplate";
 import { Days } from "./Days";
 import { Person, PersonIdRandomizer } from "./Person";
 import { PersonDays } from "./PersonDays";
@@ -7,10 +8,21 @@ import {
   CursorGreaterThanTotalDaysError,
   PersonNotFoundError,
   PersonRotation,
+  PersonRotationSerializer,
 } from "./PersonRotation";
 
 describe("PersonRotation", () => {
   testComparable(() => {
+    const personId = PersonIdRandomizer.random();
+
+    return new PersonRotation(
+      new PersonList([new Person(personId, "bob")]),
+      [new PersonDays(personId, new Days(2))],
+      new Days(1),
+    );
+  });
+
+  testSerializer(PersonRotationSerializer, () => {
     const personId = PersonIdRandomizer.random();
 
     return new PersonRotation(

@@ -1,7 +1,12 @@
-import { BaseError, Comparable, isArrayEqual } from "@tsukiy0/tscore";
+import {
+  BaseError,
+  Comparable,
+  isArrayEqual,
+  Serializer,
+} from "@tsukiy0/tscore";
 import { Days } from "./Days";
-import { PersonDays } from "./PersonDays";
-import { PersonList } from "./PersonList";
+import { PersonDays, PersonDaysJson, PersonDaysSerializer } from "./PersonDays";
+import { PersonList, PersonListJson, PersonListSerializer } from "./PersonList";
 
 export class CursorGreaterThanTotalDaysError extends BaseError {}
 export class PersonNotFoundError extends BaseError {}
@@ -59,3 +64,29 @@ export class PersonRotation implements Comparable {
     );
   };
 }
+
+export type PersonRotationJson = {
+  personList: PersonListJson;
+  rotation: PersonDaysJson[];
+  cursor: number;
+};
+
+export const PersonRotationSerializer: Serializer<
+  PersonRotation,
+  PersonRotationJson
+> = {
+  serialize: (input) => {
+    return {
+      personList: PersonListSerializer.serialize(input.personList),
+      rotation: input.rotation.map(PersonDaysSerializer.serialize),
+      cursor: input.cursor.toNumber(),
+    };
+  },
+  deserialize: (input) => {
+    return new PersonRotation(
+      PersonListSerializer.deserialize(input.personList),
+      input.rotation.map(PersonDaysSerializer.deserialize),
+      new Days(input.cursor),
+    );
+  },
+};

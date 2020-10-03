@@ -1,5 +1,10 @@
-import { BaseError, Comparable, isArrayEqual } from "@tsukiy0/tscore";
-import { Person } from "./Person";
+import {
+  BaseError,
+  Comparable,
+  isArrayEqual,
+  Serializer,
+} from "@tsukiy0/tscore";
+import { Person, PersonJson, PersonSerializer } from "./Person";
 
 export class DuplicatePersonError extends BaseError {}
 
@@ -19,3 +24,18 @@ export class PersonList implements Comparable {
     return isArrayEqual(this.items, input.items, (a, b) => a.equals(b));
   };
 }
+
+export type PersonListJson = {
+  items: PersonJson[];
+};
+
+export const PersonListSerializer: Serializer<PersonList, PersonListJson> = {
+  serialize: (input) => {
+    return {
+      items: input.items.map(PersonSerializer.serialize),
+    };
+  },
+  deserialize: (input) => {
+    return new PersonList(input.items.map(PersonSerializer.deserialize));
+  },
+};

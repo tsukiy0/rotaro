@@ -1,9 +1,22 @@
 import { testComparable } from "@tsukiy0/tscore/dist/models/Comparable.testTemplate";
+import { testSerializer } from "@tsukiy0/tscore/dist/models/Serializer.testTemplate";
 import { Person, PersonIdRandomizer } from "./Person";
-import { DuplicatePersonError, PersonList } from "./PersonList";
+import {
+  DuplicatePersonError,
+  PersonList,
+  PersonListSerializer,
+} from "./PersonList";
 
 describe("PersonList", () => {
   testComparable(
+    () =>
+      new PersonList([
+        new Person(PersonIdRandomizer.random(), "bob"),
+        new Person(PersonIdRandomizer.random(), "jim"),
+      ]),
+  );
+  testSerializer(
+    PersonListSerializer,
     () =>
       new PersonList([
         new Person(PersonIdRandomizer.random(), "bob"),

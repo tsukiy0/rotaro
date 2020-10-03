@@ -1,4 +1,4 @@
-import { BaseError, Comparable } from "@tsukiy0/tscore";
+import { BaseError, Comparable, Serializer } from "@tsukiy0/tscore";
 
 export enum Hour {
   _01 = "01",
@@ -70,3 +70,41 @@ export class Schedule implements Comparable {
     );
   };
 }
+
+export type ScheduleJson = {
+  monday: boolean;
+  tuesday: boolean;
+  wednesday: boolean;
+  thursday: boolean;
+  friday: boolean;
+  saturday: boolean;
+  sunday: boolean;
+  hour: string;
+};
+
+export const ScheduleSerializer: Serializer<Schedule, ScheduleJson> = {
+  serialize: (input) => {
+    return {
+      monday: input.monday,
+      tuesday: input.tuesday,
+      wednesday: input.wednesday,
+      thursday: input.thursday,
+      friday: input.friday,
+      saturday: input.saturday,
+      sunday: input.sunday,
+      hour: input.hour,
+    };
+  },
+  deserialize: (input) => {
+    return new Schedule(
+      input.monday,
+      input.tuesday,
+      input.wednesday,
+      input.thursday,
+      input.friday,
+      input.saturday,
+      input.sunday,
+      hourFromString(input.hour),
+    );
+  },
+};
