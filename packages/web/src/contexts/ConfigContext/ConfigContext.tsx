@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Config } from "@tsukiy0/tscore";
 import { BaseProps } from "../../models/BaseProps";
+import { LoadingPage } from "../../components/LoadingPage";
 import { DevConfig } from "./DevConfig";
 import { ProdConfig } from "./ProdConfig";
 
@@ -31,7 +32,7 @@ export const ConfigContextProvider: React.FC<BaseProps> = ({
   }, []);
 
   if (!config) {
-    return <div className={className}>loading config</div>;
+    return <LoadingPage />;
   }
 
   return (
