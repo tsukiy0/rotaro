@@ -1,11 +1,19 @@
 import { Roster, RosterId, RosterService } from "@rotaro/core";
 import { BaseError } from "@tsukiy0/tscore";
+import { DynamoRosterRepository } from "../RosterRepository/DynamoRosterRepository";
 import { RosterRepository } from "../RosterRepository/RosterRepository";
 
 export class RosterNotFoundError extends BaseError {}
 
 export class BackendRosterService implements RosterService {
   constructor(private readonly rosterRepository: RosterRepository) {}
+
+  public static readonly dev = async (
+    dynamoUrl: string,
+  ): Promise<BackendRosterService> => {
+    const repo = await DynamoRosterRepository.dev(dynamoUrl);
+    return new BackendRosterService(repo);
+  };
 
   public readonly createRoster = async (roster: Roster): Promise<void> => {
     await this.rosterRepository.createRoster(roster);

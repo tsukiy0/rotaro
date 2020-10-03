@@ -12,7 +12,8 @@ import {
   Hour,
   Day,
 } from "@rotaro/core";
-import { DynamoDB } from "aws-sdk";
+import { StringRandomizer } from "@tsukiy0/tscore";
+import { CredentialProviderChain, Credentials, DynamoDB } from "aws-sdk";
 import { RosterRepository } from "./RosterRepository";
 
 type RosterDocument = {
@@ -46,6 +47,66 @@ export class DynamoRosterRepository implements RosterRepository {
     private readonly dynamo: DynamoDB.DocumentClient,
     private readonly tableName: string,
   ) {}
+
+  public static readonly dev = async (
+    dynamoUrl: string,
+  ): Promise<RosterRepository> => {
+    const tableName = StringRandomizer.random();
+    const options: DynamoDB.ClientConfiguration = {
+      endpoint: dynamoUrl,
+      region: "us-east-1",
+      credentialProvider: new CredentialProviderChain([
+        () => new Credentials("", ""),
+      ]),
+    };
+    const normalDynamo = new DynamoDB(options);
+
+    await normalDynamo
+      .createTable({
+        TableName: tableName,
+        KeySchema: [
+          {
+            AttributeName: "id",
+            KeyType: "HASH",
+          },
+        ],
+        GlobalSecondaryIndexes: [
+          {
+            IndexName: "scheduleHour_id",
+            KeySchema: [
+              {
+                AttributeName: "scheduleHour",
+                KeyType: "HASH",
+              },
+              {
+                AttributeName: "id",
+                KeyType: "SORT",
+              },
+            ],
+            Projection: {
+              ProjectionType: "ALL",
+            },
+          },
+        ],
+        AttributeDefinitions: [
+          {
+            AttributeName: "id",
+            AttributeType: "S",
+          },
+          {
+            AttributeName: "scheduleHour",
+            AttributeType: "S",
+          },
+        ],
+        BillingMode: "PAY_PER_REQUEST",
+      })
+      .promise();
+
+    return new DynamoRosterRepository(
+      new DynamoDB.DocumentClient(options),
+      tableName,
+    );
+  };
 
   public readonly getRoster = async (
     rosterId: RosterId,
