@@ -1,13 +1,18 @@
 import {
   Alert as ChakraAlert,
-  AlertDescription,
   AlertIcon,
   AlertProps,
   AlertTitle,
   Box,
   CloseButton,
 } from "@chakra-ui/core";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Alert, AlertType } from "../../models/Alert";
 import { BaseProps } from "../../models/BaseProps";
 
@@ -35,17 +40,17 @@ export const AlertContextProvider: React.FC<BaseProps> = ({
   const [alert, setAlert] = useState<Alert | undefined>();
   const timeout = useRef<NodeJS.Timeout>();
 
-  const onSuccess = (message: string) => {
+  const onSuccess = useCallback((message: string) => {
     setAlert(new Alert(AlertType.SUCCESS, message));
-  };
+  }, []);
 
-  const onError = (error: Error) => {
+  const onError = useCallback((error: Error) => {
     setAlert(new Alert(AlertType.ERROR, error.message));
-  };
+  }, []);
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     setAlert(undefined);
-  };
+  }, []);
 
   useEffect(() => {
     if (timeout.current) {

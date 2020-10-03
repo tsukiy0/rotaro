@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Config } from "@tsukiy0/tscore";
 import { BaseProps } from "../../models/BaseProps";
 import { LoadingPage } from "../../components/LoadingPage";
+import { useAlert } from "../AlertContext/AlertContext";
 import { DevConfig } from "./DevConfig";
 import { ProdConfig } from "./ProdConfig";
 
@@ -11,6 +12,7 @@ export const ConfigContextProvider: React.FC<BaseProps> = ({
   className,
   children,
 }) => {
+  const { onError } = useAlert();
   const [config, setConfig] = useState<Config | undefined>();
 
   const getConfig = async (): Promise<Config> => {
@@ -25,11 +27,15 @@ export const ConfigContextProvider: React.FC<BaseProps> = ({
 
   useEffect(() => {
     const fn = async () => {
-      setConfig(await getConfig());
+      try {
+        setConfig(await getConfig());
+      } catch (e) {
+        onError(e);
+      }
     };
 
     fn();
-  }, []);
+  }, [onError]);
 
   if (!config) {
     return <LoadingPage className={className} />;

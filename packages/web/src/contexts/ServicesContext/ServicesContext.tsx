@@ -4,6 +4,7 @@ import { RosterService } from "@rotaro/core";
 import { LoadingPage } from "../../components/LoadingPage";
 import { BaseProps } from "../../models/BaseProps";
 import { useConfig } from "../ConfigContext/ConfigContext";
+import { useAlert } from "../AlertContext/AlertContext";
 
 export type Services = {
   rosterService: RosterService;
@@ -15,21 +16,26 @@ export const ServicesContextProvider: React.FC<BaseProps> = ({
   className,
   children,
 }) => {
+  const { onError } = useAlert();
   const config = useConfig();
   const [services, setServices] = useState<Services | undefined>();
 
   useEffect(() => {
     const fn = async () => {
-      const apiUrl = config.get("API_URL");
-      const rosterService = FrontendRosterService.default(apiUrl);
+      try {
+        const apiUrl = config.get("API_URL");
+        const rosterService = FrontendRosterService.default(apiUrl);
 
-      setServices({
-        rosterService,
-      });
+        setServices({
+          rosterService,
+        });
+      } catch (e) {
+        onError(e);
+      }
     };
 
     fn();
-  }, [config]);
+  }, [config, onError]);
 
   if (!services) {
     return <LoadingPage className={className} />;
