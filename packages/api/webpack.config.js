@@ -4,7 +4,7 @@ module.exports = {
   entry: path.join(__dirname, "src/index.ts"),
   output: {
     path: path.join(__dirname, "out"),
-    filename: "bundle.js",
+    filename: "index.js",
     library: "index",
     libraryTarget: "commonjs2",
   },
