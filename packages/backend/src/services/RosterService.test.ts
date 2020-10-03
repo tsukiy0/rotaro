@@ -11,10 +11,7 @@ import {
   Hour,
   RosterId,
 } from "@rotaro/core";
-import {
-  DefaultRosterService,
-  RosterNotFoundError,
-} from "./DefaultRosterService";
+import { RosterService, RosterNotFoundError } from "./RosterService";
 import { RosterRepository } from "./RosterRepository";
 
 describe("RosterService", () => {
@@ -37,7 +34,7 @@ describe("RosterService", () => {
       const repo: RosterRepository = {
         createRoster: jest.fn().mockResolvedValue(undefined),
       } as any;
-      const service = new DefaultRosterService(repo);
+      const service = new RosterService(repo);
 
       await service.createRoster(roster);
 
@@ -54,7 +51,7 @@ describe("RosterService", () => {
         getRoster: jest.fn().mockResolvedValue(buildRoster()),
         deleteRoster: jest.fn().mockResolvedValue(undefined),
       } as any;
-      const service = new DefaultRosterService(repo);
+      const service = new RosterService(repo);
 
       await service.deleteRoster(rosterId);
 
@@ -69,7 +66,7 @@ describe("RosterService", () => {
         getRoster: jest.fn().mockResolvedValue(undefined),
         deleteRoster: jest.fn().mockResolvedValue(undefined),
       } as any;
-      const service = new DefaultRosterService(repo);
+      const service = new RosterService(repo);
 
       await expect(service.deleteRoster(rosterId)).rejects.toThrowError(
         RosterNotFoundError,
@@ -85,7 +82,7 @@ describe("RosterService", () => {
         getRoster: jest.fn().mockResolvedValue(roster),
         updateRoster: jest.fn().mockResolvedValue(undefined),
       } as any;
-      const service = new DefaultRosterService(repo);
+      const service = new RosterService(repo);
 
       await service.tickRoster(rosterId);
 
@@ -112,7 +109,7 @@ describe("RosterService", () => {
         getRoster: jest.fn().mockResolvedValue(buildRoster(new Days(2))),
         updateRoster: jest.fn().mockResolvedValue(undefined),
       } as any;
-      const service = new DefaultRosterService(repo);
+      const service = new RosterService(repo);
 
       await service.tickRoster(rosterId);
 
@@ -127,7 +124,7 @@ describe("RosterService", () => {
         getRoster: jest.fn().mockResolvedValue(buildRoster(new Days(1))),
         updateRoster: jest.fn().mockResolvedValue(undefined),
       } as any;
-      const service = new DefaultRosterService(repo);
+      const service = new RosterService(repo);
 
       await service.tickRoster(rosterId);
 
@@ -142,7 +139,7 @@ describe("RosterService", () => {
         getRoster: jest.fn().mockResolvedValue(undefined),
         updateRoster: jest.fn().mockResolvedValue(undefined),
       } as any;
-      const service = new DefaultRosterService(repo);
+      const service = new RosterService(repo);
 
       await expect(service.tickRoster(rosterId)).rejects.toThrowError(
         RosterNotFoundError,
