@@ -10,7 +10,7 @@ export class RootStack extends Stack {
 
     const database = new DatabaseConstruct(this, "Database");
 
-    new ApiConstruct(this, "Api", {
+    const api = new ApiConstruct(this, "Api", {
       database,
     });
 
@@ -18,6 +18,10 @@ export class RootStack extends Stack {
 
     new OutputConstruct(this, "WebUrl", {
       value: web.url,
+    });
+
+    new OutputConstruct(this, "ApiUrl", {
+      value: api.api.url,
     });
   }
 }
