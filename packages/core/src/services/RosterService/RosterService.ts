@@ -1,4 +1,4 @@
-import { Roster, RosterId } from "../models/Roster";
+import { Roster, RosterId } from "../../models/Roster";
 
 export interface RosterService {
   getRoster(rosterId: RosterId): Promise<Roster>;

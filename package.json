@@ -23,6 +23,7 @@
     "lint:fix": "lerna run lint:fix",
     "test": "lerna run test",
     "test:integration": "lerna run test:integration",
-    "deploy": "lerna run deploy"
+    "deploy": "lerna run deploy",
+    "local": "docker-compose -f tasks/local/docker-compose.yml up"
   }
 }

@@ -1,9 +1,10 @@
-import express, { Express } from "express";
+import express, { ErrorRequestHandler, Express } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { SystemConfig } from "@tsukiy0/tscore";
 import { BackendRosterService } from "@rotaro/backend";
 import {
+  ErrorSerializerMap,
   RosterIdSerializer,
   RosterSerializer,
   RosterService,
@@ -25,19 +26,27 @@ const setup = async (): Promise<void> => {
   }
 };
 
+const errHandler = (err: Error, res: any) => {
+  const serializer = ErrorSerializerMap[err.constructor.name];
+  console.log(err.name);
+  console.log(err.constructor.name);
+  console.log(serializer);
+
+  if (!serializer) {
+    res.status(500);
+    res.json({});
+  } else {
+    res.status(400);
+    res.json(serializer.serialize(err));
+  }
+};
+
 export const app = ((): Express => {
   const app = express();
   app.use(cors());
   app.use(bodyParser.json());
 
-  app.post("/", (_, res) => {
-    res.status(200);
-    res.json({
-      message: "hello world!",
-    });
-  });
-
-  app.post("/createRoster", async (req, res) => {
+  app.post("/createRoster", async (req, res, next) => {
     try {
       await setup();
       const input = RosterSerializer.deserialize(req.body);
@@ -45,14 +54,11 @@ export const app = ((): Express => {
       res.status(200);
       res.json({});
     } catch (e) {
-      res.status(500);
-      res.json({
-        message: e.message,
-      });
+      errHandler(e, res);
     }
   });
 
-  app.post("/getRoster", async (req, res) => {
+  app.post("/getRoster", async (req, res, next) => {
     try {
       await setup();
       const input = RosterIdSerializer.deserialize(req.body);
@@ -60,14 +66,11 @@ export const app = ((): Express => {
       res.status(200);
       res.json(RosterSerializer.serialize(output));
     } catch (e) {
-      res.status(500);
-      res.json({
-        message: e.message,
-      });
+      errHandler(e, res);
     }
   });
 
-  app.post("/deleteRoster", async (req, res) => {
+  app.post("/deleteRoster", async (req, res, next) => {
     try {
       await setup();
       const input = RosterIdSerializer.deserialize(req.body);
@@ -75,10 +78,7 @@ export const app = ((): Express => {
       res.status(200);
       res.json({});
     } catch (e) {
-      res.status(500);
-      res.json({
-        message: e.message,
-      });
+      errHandler(e, res);
     }
   });
 

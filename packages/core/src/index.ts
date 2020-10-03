@@ -6,4 +6,6 @@ export * from "./models/PersonRotation";
 export * from "./models/Roster";
 export * from "./models/Schedule";
 export * from "./models/Day";
-export * from "./services/RosterService";
+export * from "./models/ErrorSerializerMap";
+export * from "./services/RosterService/RosterService";
+export * from "./services/RosterService/RosterNotFoundError";

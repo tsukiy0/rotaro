@@ -1,6 +1,7 @@
 import path from "path";
 import FetchFunction from "isomorphic-fetch";
 import { BaseError } from "@tsukiy0/tscore";
+import { ErrorSerializerMap } from "@rotaro/core";
 
 export class HttpError extends BaseError {
   constructor(public readonly status: number) {
@@ -28,11 +29,23 @@ export class FetchApiService {
       },
     });
 
-    if (res.status >= 400) {
-      throw new HttpError(res.status);
+    const resBody = await res.json();
+
+    debugger;
+
+    if (res.status === 400) {
+      const serializer = ErrorSerializerMap[resBody.type];
+
+      if (!serializer) {
+        throw new HttpError(res.status);
+      }
+
+      throw serializer.deserialize(resBody);
     }
 
-    const resBody = await res.json();
+    if (res.status > 400) {
+      throw new HttpError(res.status);
+    }
 
     return resBody;
   };
