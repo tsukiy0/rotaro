@@ -8,6 +8,11 @@ export class RosterNotFoundError extends BaseError {}
 export class BackendRosterService implements RosterService {
   constructor(private readonly rosterRepository: RosterRepository) {}
 
+  public static readonly prod = (tableName: string): BackendRosterService => {
+    const repo = DynamoRosterRepository.prod(tableName);
+    return new BackendRosterService(repo);
+  };
+
   public static readonly dev = async (
     dynamoUrl: string,
   ): Promise<BackendRosterService> => {

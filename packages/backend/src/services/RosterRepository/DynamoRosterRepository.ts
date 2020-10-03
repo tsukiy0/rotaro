@@ -48,6 +48,10 @@ export class DynamoRosterRepository implements RosterRepository {
     private readonly tableName: string,
   ) {}
 
+  public static readonly prod = (tableName: string): RosterRepository => {
+    return new DynamoRosterRepository(new DynamoDB.DocumentClient(), tableName);
+  };
+
   public static readonly dev = async (
     dynamoUrl: string,
   ): Promise<RosterRepository> => {

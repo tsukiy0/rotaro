@@ -1,4 +1,4 @@
-import express, { ErrorRequestHandler, Express } from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { SystemConfig } from "@tsukiy0/tscore";
@@ -10,20 +10,15 @@ import {
   RosterService,
 } from "@rotaro/core";
 
-let services: {
+const setup = async (): Promise<{
   rosterService: RosterService;
-} = undefined as any;
-
-const setup = async (): Promise<void> => {
+}> => {
   const config = new SystemConfig();
   const dynamoUrl = config.get("DYNAMODB_URL");
 
-  if (!services) {
-    services = {
-      // @TODO decide dev and prod for each service
-      rosterService: await BackendRosterService.dev(dynamoUrl),
-    };
-  }
+  return {
+    rosterService: await BackendRosterService.dev(dynamoUrl),
+  };
 };
 
 const errHandler = (err: Error, res: any) => {
@@ -38,10 +33,16 @@ const errHandler = (err: Error, res: any) => {
   }
 };
 
-export const app = ((): Express => {
+export const getApp = async (
+  setup: () => Promise<{
+    rosterService: RosterService;
+  }>,
+): Promise<Express> => {
   const app = express();
   app.use(cors());
   app.use(bodyParser.json());
+
+  const services = await setup();
 
   app.post("/createRoster", async (req, res, next) => {
     try {
@@ -80,4 +81,4 @@ export const app = ((): Express => {
   });
 
   return app;
-})();
+};
