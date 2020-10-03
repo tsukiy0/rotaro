@@ -1,0 +1,23 @@
+{
+  "name": "@rotaro/api",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "@rotaro/tools": "*"
+  },
+  "dependencies": {
+    "@rotaro/backend": "*",
+    "@rotaro/core": "*"
+  },
+  "scripts": {
+    "typecheck": "tsc",
+    "lint": "eslint \"./src/**/*.{ts,tsx}\"",
+    "lint:fix": "yarn lint --fix",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "build": "tsc --build .",
+    "test": "jest"
+  }
+}
