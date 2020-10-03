@@ -11,7 +11,7 @@ export const ConfigContextProvider: React.FC<BaseProps> = ({
   className,
   children,
 }) => {
-  const [config, setConfig] = useState<Config | undefined>(undefined);
+  const [config, setConfig] = useState<Config | undefined>();
 
   const getConfig = async (): Promise<Config> => {
     if (process.env.NODE_ENV === "development") {
@@ -32,7 +32,7 @@ export const ConfigContextProvider: React.FC<BaseProps> = ({
   }, []);
 
   if (!config) {
-    return <LoadingPage />;
+    return <LoadingPage className={className} />;
   }
 
   return (

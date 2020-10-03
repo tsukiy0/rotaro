@@ -8,9 +8,16 @@ import {
   RosterService,
 } from "@rotaro/core";
 import { ApiService } from "../ApiService/ApiService";
+import { FetchApiService } from "../ApiService/FetchApiService";
 
 export class FrontendRosterService implements RosterService {
   constructor(private readonly apiService: ApiService) {}
+
+  public static readonly default = (apiUrl: string): RosterService => {
+    const apiService = new FetchApiService(fetch, apiUrl);
+
+    return new FrontendRosterService(apiService);
+  };
 
   public readonly getRoster = async (rosterId: RosterId): Promise<Roster> => {
     const result = await this.apiService.request<RosterIdJson, RosterJson>(

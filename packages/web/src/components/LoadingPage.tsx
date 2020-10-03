@@ -5,6 +5,7 @@ import { BaseProps } from "../models/BaseProps";
 export const LoadingPage: React.FC<BaseProps> = ({ className }) => {
   return (
     <Box
+      className={className}
       height="100vh"
       width="100vw"
       display="flex"
