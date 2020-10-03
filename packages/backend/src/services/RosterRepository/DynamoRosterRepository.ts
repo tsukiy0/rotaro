@@ -135,6 +135,8 @@ export class DynamoRosterRepository implements RosterRepository {
         ExpressionAttributeValues: {
           ":hashValue": hour,
         },
+        // handle pagination
+        // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.Pagination.html
       })
       .promise();
 
