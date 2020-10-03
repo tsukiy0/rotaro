@@ -2886,7 +2886,7 @@
     eslint-plugin-prettier "3.1.4"
     prettier "2.1.2"
 
-"@tsukiy0/tscore@1.0.0":
+"@tsukiy0/tscore@1.0.0", "@tsukiy0/tscore@^1.0.0":
   version "1.0.0"
   resolved "https://npm.pkg.github.com/download/@tsukiy0/tscore/1.0.0/22fecc8d01d94e5da72ecd83e46f660a5ba743a0f87e3e9d0ff357c68d193710#730e7dc009165516f8785b06bc22489b42f14807"
   integrity sha512-dxftVLKdr7bXg6X8kPltRz5Pl6UlEq0k2ApmZR60fOmDl8qUchYR18w/oe2ASdevEF4k1onl3CH0UNQVjJAlrw==

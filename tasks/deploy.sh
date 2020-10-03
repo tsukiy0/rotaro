@@ -7,7 +7,7 @@ get_cfn_output() {
 }
 
 get_config_json() {
-    echo $(jq -n --arg ApiUrl "${1}" '{ApiUrl: $ApiUrl}')
+    echo $(jq -n --arg ApiUrl "${1}" '{API_URL: $ApiUrl}')
 }
 
 yarn deploy

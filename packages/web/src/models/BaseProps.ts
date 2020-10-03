@@ -1,3 +1,3 @@
-export type BaseProps<T = void> = T & {
-  className: string;
+export type BaseProps<T = unknown> = T & {
+  className?: string;
 };
