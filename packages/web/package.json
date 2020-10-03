@@ -10,12 +10,16 @@
     "eslint-plugin-react": "7.21.2"
   },
   "dependencies": {
+    "@chakra-ui/core": "0.8.0",
+    "@emotion/core": "10.0.35",
+    "@emotion/styled": "10.0.27",
+    "emotion-theming": "10.0.27",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1"
   },
   "scripts": {
-    "start": "next",
+    "dev": "next",
     "typecheck": "tsc",
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
     "lint:fix": "yarn lint --fix",
