@@ -11,9 +11,17 @@ services:
       - integration
     depends_on: 
       - dynamodb_local
+      - api
     environment:
       DYNAMODB_URL: http://dynamodb_local:8000
+      API_URL: http://api:7000
     command: ./tasks/integration.sh
+  api:
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    networks:
+      - integration
   dynamodb_local:
     image: amazon/dynamodb-local
     networks:
