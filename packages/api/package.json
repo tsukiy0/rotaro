@@ -30,7 +30,6 @@
     "lint": "eslint \"./src/**/*.{ts,tsx}\"",
     "lint:fix": "yarn lint --fix",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
-    "build": "webpack",
-    "test": "jest"
+    "build": "webpack"
   }
 }
