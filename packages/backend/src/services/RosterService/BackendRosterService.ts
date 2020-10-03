@@ -1,10 +1,10 @@
-import { Roster, RosterId } from "@rotaro/core";
+import { Roster, RosterId, RosterService } from "@rotaro/core";
 import { BaseError } from "@tsukiy0/tscore";
 import { RosterRepository } from "../RosterRepository/RosterRepository";
 
 export class RosterNotFoundError extends BaseError {}
 
-export class RosterService {
+export class BackendRosterService implements RosterService {
   constructor(private readonly rosterRepository: RosterRepository) {}
 
   public readonly createRoster = async (roster: Roster): Promise<void> => {
