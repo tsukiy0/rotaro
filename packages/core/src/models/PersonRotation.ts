@@ -3,7 +3,7 @@ import { Days } from "./Days";
 import { PersonDays } from "./PersonDays";
 import { PersonList } from "./PersonList";
 
-export class CursorGreaterThanTotalRotationDaysError extends BaseError {}
+export class CursorGreaterThanTotalDaysError extends BaseError {}
 export class PersonNotFoundError extends BaseError {}
 
 export class PersonRotation implements Comparable {
@@ -12,8 +12,8 @@ export class PersonRotation implements Comparable {
     public readonly rotation: readonly PersonDays[],
     public readonly cursor: Days,
   ) {
-    if (cursor.toNumber() > this.getTotalRotationDays(rotation).toNumber()) {
-      throw new CursorGreaterThanTotalRotationDaysError();
+    if (this.cursor.greaterThan(this.getTotalDays())) {
+      throw new CursorGreaterThanTotalDaysError();
     }
 
     for (const item of rotation) {
@@ -25,13 +25,29 @@ export class PersonRotation implements Comparable {
     }
   }
 
-  private readonly getTotalRotationDays = (
-    rotation: readonly PersonDays[],
-  ): Days => {
+  public readonly getTotalDays = (): Days => {
     return new Days(
-      rotation.reduce((acc, item) => {
+      this.rotation.reduce((acc, item) => {
         return acc + item.days.toNumber();
       }, 0),
+    );
+  };
+
+  public readonly tick = (): PersonRotation => {
+    const calculateNewCursor = () => {
+      const totalDays = this.getTotalDays();
+
+      if (totalDays.equals(this.cursor)) {
+        return this.cursor.reset();
+      }
+
+      return this.cursor.increment();
+    };
+
+    return new PersonRotation(
+      this.personList,
+      this.rotation,
+      calculateNewCursor(),
     );
   };
 

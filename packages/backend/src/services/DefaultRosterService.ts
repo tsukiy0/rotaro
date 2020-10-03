@@ -1,15 +1,49 @@
 import { Roster, RosterId, RosterService } from "@rotaro/core";
+import { BaseError } from "@tsukiy0/tscore";
+import { RosterRepository } from "./RosterRepository";
+
+export class RosterNotFoundError extends BaseError {}
 
 export class DefaultRosterService implements RosterService {
-  public readonly createRoster = (roster: Roster): Promise<void> => {
-    throw new Error("Method not implemented.");
+  constructor(private readonly rosterRepository: RosterRepository) {}
+
+  public readonly createRoster = async (roster: Roster): Promise<void> => {
+    await this.rosterRepository.createRoster(roster);
   };
 
-  public readonly deleteRoster = (rosterId: RosterId): Promise<void> => {
-    throw new Error("Method not implemented.");
+  public readonly deleteRoster = async (rosterId: RosterId): Promise<void> => {
+    const roster = await this.rosterRepository.getRoster(rosterId);
+
+    if (!roster) {
+      throw new RosterNotFoundError();
+    }
+
+    await this.rosterRepository.deleteRoster(rosterId);
   };
 
-  public readonly moveForward = (rosterId: RosterId): Promise<void> => {
-    throw new Error("Method not implemented.");
+  public readonly tickRoster = async (rosterId: RosterId): Promise<void> => {
+    const roster = await this.rosterRepository.getRoster(rosterId);
+
+    if (!roster) {
+      throw new RosterNotFoundError();
+    }
+
+    const newRoster = new Roster(
+      roster.id,
+      roster.rotation.tick(),
+      roster.schedule,
+    );
+
+    await this.rosterRepository.updateRoster(newRoster);
+  };
+
+  public readonly getRoster = async (rosterId: RosterId): Promise<Roster> => {
+    const roster = await this.rosterRepository.getRoster(rosterId);
+
+    if (!roster) {
+      throw new RosterNotFoundError();
+    }
+
+    return roster;
   };
 }

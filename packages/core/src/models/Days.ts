@@ -19,6 +19,18 @@ export class Days implements Comparable {
     return this.value;
   };
 
+  public readonly increment = (): Days => {
+    return new Days(this.value + 1);
+  };
+
+  public readonly reset = (): Days => {
+    return new Days(1);
+  };
+
+  public readonly greaterThan = (input: Days): boolean => {
+    return this.value > input.value;
+  };
+
   public readonly equals = (input: this): boolean => {
     return this.value === input.value;
   };
