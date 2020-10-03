@@ -1,4 +1,4 @@
-import { Construct, RemovalPolicy } from "@aws-cdk/core";
+import { Construct } from "@aws-cdk/core";
 import {
   Table,
   BillingMode,
