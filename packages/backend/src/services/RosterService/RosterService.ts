@@ -1,6 +1,6 @@
 import { Roster, RosterId } from "@rotaro/core";
 import { BaseError } from "@tsukiy0/tscore";
-import { RosterRepository } from "./RosterRepository";
+import { RosterRepository } from "../RosterRepository/RosterRepository";
 
 export class RosterNotFoundError extends BaseError {}
 

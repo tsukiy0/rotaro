@@ -1,5 +1,4 @@
-import { Day, Roster, RosterId } from "@rotaro/core";
-import { Hour } from "aws-sdk/clients/opsworks";
+import { Day, Hour, Roster, RosterId } from "@rotaro/core";
 
 export interface RosterRepository {
   getRoster(rosterId: RosterId): Promise<Roster | undefined>;

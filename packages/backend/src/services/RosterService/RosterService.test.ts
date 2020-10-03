@@ -11,8 +11,8 @@ import {
   Hour,
   RosterId,
 } from "@rotaro/core";
+import { RosterRepository } from "../RosterRepository/RosterRepository";
 import { RosterService, RosterNotFoundError } from "./RosterService";
-import { RosterRepository } from "./RosterRepository";
 
 describe("RosterService", () => {
   const buildRoster = (cursor?: Days) => {
