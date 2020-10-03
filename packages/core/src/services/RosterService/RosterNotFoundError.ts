@@ -3,7 +3,7 @@ import { BaseError, Serializer } from "@tsukiy0/tscore";
 export class RosterNotFoundError extends BaseError {}
 
 export type RosterNotFoundErrorJson = {
-  type: string;
+  name: string;
 };
 
 export const RosterNotFoundErrorSerializer: Serializer<
@@ -12,7 +12,7 @@ export const RosterNotFoundErrorSerializer: Serializer<
 > = {
   serialize: () => {
     return {
-      type: RosterNotFoundError.name,
+      name: RosterNotFoundError.name,
     };
   },
   deserialize: () => {

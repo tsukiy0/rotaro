@@ -27,10 +27,7 @@ const setup = async (): Promise<void> => {
 };
 
 const errHandler = (err: Error, res: any) => {
-  const serializer = ErrorSerializerMap[err.constructor.name];
-  console.log(err.name);
-  console.log(err.constructor.name);
-  console.log(serializer);
+  const serializer = ErrorSerializerMap.fromInstance(err);
 
   if (!serializer) {
     res.status(500);

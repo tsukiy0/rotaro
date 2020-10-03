@@ -7,5 +7,6 @@ export * from "./models/Roster";
 export * from "./models/Schedule";
 export * from "./models/Day";
 export * from "./models/ErrorSerializerMap";
+export * from "./models/UnknownError";
 export * from "./services/RosterService/RosterService";
 export * from "./services/RosterService/RosterNotFoundError";

@@ -34,7 +34,7 @@ export class FetchApiService {
     debugger;
 
     if (res.status === 400) {
-      const serializer = ErrorSerializerMap[resBody.type];
+      const serializer = ErrorSerializerMap.fromName(resBody.name);
 
       if (!serializer) {
         throw new HttpError(res.status);
