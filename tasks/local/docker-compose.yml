@@ -6,7 +6,7 @@ services:
     ports:
       - 8000:8000
     networks:
-      - integration
+      - local
   api:
     build:
       context: .
@@ -15,9 +15,13 @@ services:
       - ../..:/app
     working_dir: /app
     networks:
-      - integration
+      - local
+    depends_on: 
+      - dynamodb_local
+    environment:
+      DYNAMODB_URL: http://dynamodb_local:8000
     command: ./tasks/api.sh
     ports:
       - 7000:7000
 networks:
-    integration:
+    local:

@@ -25,6 +25,10 @@ services:
     working_dir: /app
     networks:
       - integration
+    depends_on: 
+      - dynamodb_local
+    environment:
+      DYNAMODB_URL: http://dynamodb_local:8000
     command: ./tasks/api.sh
   dynamodb_local:
     image: amazon/dynamodb-local
