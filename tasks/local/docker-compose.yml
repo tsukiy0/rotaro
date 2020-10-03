@@ -7,5 +7,17 @@ services:
       - 8000:8000
     networks:
       - integration
+  api:
+    build:
+      context: .
+      dockerfile: ../api.Dockerfile
+    volumes: 
+      - ../..:/app
+    working_dir: /app
+    networks:
+      - integration
+    command: ./tasks/api.sh
+    ports:
+      - 7000:7000
 networks:
     integration:

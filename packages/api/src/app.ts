@@ -7,9 +7,11 @@ export const app = (() => {
   app.use(cors());
   app.use(bodyParser.json());
 
-  app.get("/", (_, res) => {
+  app.post("/", (_, res) => {
     res.status(200);
-    res.send("hello world!");
+    res.json({
+      message: "hello world!",
+    });
   });
 
   return app;
