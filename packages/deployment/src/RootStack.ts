@@ -23,5 +23,9 @@ export class RootStack extends Stack {
     new OutputConstruct(this, "ApiUrl", {
       value: api.api.url,
     });
+
+    new OutputConstruct(this, "BucketName", {
+      value: web.bucket.bucketName,
+    });
   }
 }

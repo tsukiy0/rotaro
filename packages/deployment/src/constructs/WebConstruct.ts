@@ -9,6 +9,7 @@ import { BucketDeployment, Source } from "@aws-cdk/aws-s3-deployment";
 
 export class WebConstruct extends Construct {
   public readonly url: string;
+  public readonly bucket: Bucket;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -54,5 +55,6 @@ export class WebConstruct extends Construct {
     });
 
     this.url = cdn.distributionDomainName;
+    this.bucket = bucket;
   }
 }
