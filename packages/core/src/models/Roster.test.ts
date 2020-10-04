@@ -11,7 +11,8 @@ import {
   RosterIdSerializer,
   RosterSerializer,
 } from "./Roster";
-import { Schedule, Hour } from "./Schedule";
+import { Schedule } from "./Schedule";
+import { Hour } from "./Hour";
 
 describe("RosterId", () => {
   testComparable(() => RosterIdRandomizer.random());

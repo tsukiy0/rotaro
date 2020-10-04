@@ -6,6 +6,8 @@ export * from "./models/PersonRotation";
 export * from "./models/Roster";
 export * from "./models/Schedule";
 export * from "./models/Day";
+export * from "./models/DayList";
+export * from "./models/Hour";
 export * from "./models/ErrorSerializerMap";
 export * from "./models/UnknownError";
 export * from "./services/RosterService/RosterService";

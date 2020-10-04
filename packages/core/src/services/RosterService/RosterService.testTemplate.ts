@@ -1,10 +1,11 @@
 import { Days } from "../../models/Days";
+import { Hour } from "../../models/Hour";
 import { Person, PersonIdRandomizer } from "../../models/Person";
 import { PersonDays } from "../../models/PersonDays";
 import { PersonList } from "../../models/PersonList";
 import { PersonRotation } from "../../models/PersonRotation";
 import { Roster, RosterIdRandomizer } from "../../models/Roster";
-import { Schedule, Hour } from "../../models/Schedule";
+import { Schedule } from "../../models/Schedule";
 import { RosterNotFoundError } from "./RosterNotFoundError";
 import { RosterService } from "./RosterService";
 
