@@ -12,7 +12,7 @@ export const HourInput: React.FC<BaseProps<{
       <FormLabel htmlFor="hour">Hour</FormLabel>
       <Select
         name="hour"
-        placeholder="Select option"
+        placeholder="Select hour"
         value={value}
         onChange={(e) => onChange(hourFromString(e.target.value))}
       >
