@@ -1,10 +1,10 @@
 import React from "react";
-import { PersonListInput } from "../../components/PersonListInput";
+import { RosterInput } from "../../components/RosterInput";
 
 const New: React.FC = () => {
   return (
     <div>
-      <PersonListInput value={{} as any} onChange={console.log} />
+      <RosterInput />
     </div>
   );
 };

@@ -12,8 +12,12 @@ export const PersonInput: React.FC<BaseProps<{
   value?: Person;
   onChange: (value: Person) => void;
 }>> = ({ className, value, onChange }) => {
-  const [name, setName] = useState<string | undefined>(value?.name);
+  const [name, setName] = useState<string>("");
   const [error, setError] = useState<Error | undefined>();
+
+  useEffect(() => {
+    setName(value?.name ?? "");
+  }, [value]);
 
   useEffect(() => {
     try {
