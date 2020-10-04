@@ -3,6 +3,7 @@ import { testSerializer } from "@tsukiy0/tscore/dist/models/Serializer.testTempl
 import { Person, PersonIdRandomizer } from "./Person";
 import {
   DuplicatePersonError,
+  EmptyPersonListError,
   PersonList,
   PersonListSerializer,
 } from "./PersonList";
@@ -29,5 +30,11 @@ describe("PersonList", () => {
       const id = PersonIdRandomizer.random();
       new PersonList([new Person(id, "bob"), new Person(id, "jim")]);
     }).toThrowError(DuplicatePersonError);
+  });
+
+  it("throws when empty", () => {
+    expect(() => {
+      new PersonList([]);
+    }).toThrowError(EmptyPersonListError);
   });
 });
