@@ -12,7 +12,7 @@ export const ScheduleInput: React.FC<BaseProps<{
   const [error, setError] = useState<Error | undefined>();
 
   return (
-    <FormControl className={className}>
+    <FormControl className={className} marginBottom="2rem">
       <FormLabel>Schedule</FormLabel>
       <HourInput
         value={value?.hour}

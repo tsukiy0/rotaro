@@ -19,7 +19,7 @@ export const PersonListInput: React.FC<BaseProps<{
   };
 
   return (
-    <Box className={className}>
+    <Box className={className} marginBottom="2rem">
       <PersonInput value={person} onChange={setPerson} />
       <Button onClick={onAddPerson}>Add</Button>
       <List>
