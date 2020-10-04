@@ -10,6 +10,7 @@ import {
   Schedule,
   Hour,
   Day,
+  DayList,
 } from "@rotaro/core";
 import { RosterRepository } from "./RosterRepository";
 
@@ -28,7 +29,16 @@ export const testRosterRepository = (
           new Days(1),
         ),
       partial?.schedule ??
-        new Schedule(true, true, true, true, true, false, false, Hour._14),
+        new Schedule(
+          new DayList([
+            Day.MONDAY,
+            Day.TUESDAY,
+            Day.WEDNESDAY,
+            Day.THURSDAY,
+            Day.FRIDAY,
+          ]),
+          Hour._14,
+        ),
     );
   };
 
@@ -104,25 +114,29 @@ export const testRosterRepository = (
       await setup(async (repo) => {
         const roster1 = buildRoster({
           schedule: new Schedule(
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
+            new DayList([
+              Day.MONDAY,
+              Day.TUESDAY,
+              Day.WEDNESDAY,
+              Day.THURSDAY,
+              Day.FRIDAY,
+              Day.SATURDAY,
+              Day.SUNDAY,
+            ]),
             Hour._01,
           ),
         });
         const roster2 = buildRoster({
           schedule: new Schedule(
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
+            new DayList([
+              Day.MONDAY,
+              Day.TUESDAY,
+              Day.WEDNESDAY,
+              Day.THURSDAY,
+              Day.FRIDAY,
+              Day.SATURDAY,
+              Day.SUNDAY,
+            ]),
             Hour._02,
           ),
         });
@@ -130,6 +144,8 @@ export const testRosterRepository = (
         await repo.createRoster(roster2);
 
         const actual = await repo.listRostersByDayAndHour(Day.MONDAY, Hour._02);
+
+        debugger;
 
         expect(actual).toHaveLength(1);
         expect(actual[0].equals(roster2)).toBeTruthy();
@@ -139,28 +155,10 @@ export const testRosterRepository = (
     it("filter by day", async () => {
       await setup(async (repo) => {
         const roster1 = buildRoster({
-          schedule: new Schedule(
-            false,
-            false,
-            true,
-            false,
-            false,
-            false,
-            false,
-            Hour._01,
-          ),
+          schedule: new Schedule(new DayList([Day.WEDNESDAY]), Hour._01),
         });
         const roster2 = buildRoster({
-          schedule: new Schedule(
-            false,
-            true,
-            false,
-            false,
-            false,
-            false,
-            false,
-            Hour._01,
-          ),
+          schedule: new Schedule(new DayList([Day.TUESDAY]), Hour._01),
         });
         await repo.createRoster(roster1);
         await repo.createRoster(roster2);

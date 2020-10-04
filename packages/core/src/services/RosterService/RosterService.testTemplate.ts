@@ -1,3 +1,5 @@
+import { Day } from "../../models/Day";
+import { DayList } from "../../models/DayList";
 import { Days } from "../../models/Days";
 import { Hour } from "../../models/Hour";
 import { Person, PersonIdRandomizer } from "../../models/Person";
@@ -24,7 +26,7 @@ export const testRosterService = (
           new Days(1),
         ),
       partial?.schedule ??
-        new Schedule(true, true, true, true, true, false, false, Hour._14),
+        new Schedule(new DayList([Day.MONDAY, Day.WEDNESDAY]), Hour._14),
     );
   };
 

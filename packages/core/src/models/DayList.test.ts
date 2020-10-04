@@ -1,9 +1,19 @@
 import { testComparable } from "@tsukiy0/tscore/dist/models/Comparable.testTemplate";
+import { testSerializer } from "@tsukiy0/tscore/dist/models/Serializer.testTemplate";
 import { Day } from "./Day";
-import { DayList, DuplicateDayError, EmptyDayListError } from "./DayList";
+import {
+  DayList,
+  DayListSerializer,
+  DuplicateDayError,
+  EmptyDayListError,
+} from "./DayList";
 
 describe("DayList", () => {
   testComparable(() => new DayList([Day.MONDAY, Day.TUESDAY]));
+  testSerializer(
+    DayListSerializer,
+    () => new DayList([Day.MONDAY, Day.TUESDAY]),
+  );
 
   it("throws when has duplicate day", () => {
     expect(() => {
@@ -30,5 +40,23 @@ describe("DayList", () => {
         Day.SUNDAY,
       ]);
     }).toThrowError(DuplicateDayError);
+  });
+
+  describe("hasDay", () => {
+    it("true when has given day", () => {
+      const dayList = new DayList([Day.MONDAY, Day.WEDNESDAY]);
+
+      const actual = dayList.hasDay(Day.MONDAY);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it("false when does not have given day", () => {
+      const dayList = new DayList([Day.MONDAY, Day.WEDNESDAY]);
+
+      const actual = dayList.hasDay(Day.TUESDAY);
+
+      expect(actual).toBeFalsy();
+    });
   });
 });

@@ -13,6 +13,8 @@ import {
 } from "./Roster";
 import { Schedule } from "./Schedule";
 import { Hour } from "./Hour";
+import { Day } from "./Day";
+import { DayList } from "./DayList";
 
 describe("RosterId", () => {
   testComparable(() => RosterIdRandomizer.random());
@@ -29,7 +31,7 @@ describe("Roster", () => {
         [new PersonDays(personId, new Days(2))],
         new Days(1),
       ),
-      new Schedule(true, true, true, true, true, false, false, Hour._14),
+      new Schedule(new DayList([Day.MONDAY, Day.WEDNESDAY]), Hour._14),
     );
   });
 
@@ -42,7 +44,7 @@ describe("Roster", () => {
         [new PersonDays(personId, new Days(2))],
         new Days(1),
       ),
-      new Schedule(true, true, true, true, true, false, false, Hour._14),
+      new Schedule(new DayList([Day.MONDAY, Day.WEDNESDAY]), Hour._14),
     );
   });
 });

@@ -22,6 +22,7 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "build": "tsc --build .",
     "test": "jest",
-    "test:integration": "jest --config jest.integration.config.js"
+    "test:integration": "jest --config jest.integration.config.js",
+    "test:integration:debug": "ndb yarn test:integration"
   }
 }

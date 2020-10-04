@@ -11,6 +11,8 @@ import {
   Hour,
   RosterId,
   RosterNotFoundError,
+  Day,
+  DayList,
 } from "@rotaro/core";
 import { RosterRepository } from "../RosterRepository/RosterRepository";
 import { BackendRosterService } from "./BackendRosterService";
@@ -25,7 +27,17 @@ describe("BackendRosterService", () => {
         [new PersonDays(personId, new Days(2))],
         cursor ?? new Days(1),
       ),
-      new Schedule(true, true, true, true, true, false, false, Hour._14),
+      new Schedule(
+        new DayList([
+          Day.MONDAY,
+          Day.TUESDAY,
+          Day.WEDNESDAY,
+          Day.THURSDAY,
+          Day.FRIDAY,
+          Day.SATURDAY,
+        ]),
+        Hour._14,
+      ),
     );
   };
 

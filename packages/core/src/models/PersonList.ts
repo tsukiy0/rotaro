@@ -26,7 +26,7 @@ export class PersonList implements Comparable {
 }
 
 export type PersonListJson = {
-  items: PersonJson[];
+  items: readonly PersonJson[];
 };
 
 export const PersonListSerializer: Serializer<PersonList, PersonListJson> = {

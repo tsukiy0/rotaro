@@ -11,6 +11,8 @@ import {
   hourFromString,
   Hour,
   Day,
+  dayFromString,
+  DayList,
 } from "@rotaro/core";
 import { StringRandomizer } from "@tsukiy0/tscore";
 import { CredentialProviderChain, Credentials, DynamoDB } from "aws-sdk";
@@ -31,13 +33,7 @@ type RosterDocument = {
     cursor: number;
   };
   schedule: {
-    monday: boolean;
-    tuesday: boolean;
-    wednesday: boolean;
-    thursday: boolean;
-    friday: boolean;
-    saturday: boolean;
-    sunday: boolean;
+    dayList: readonly string[];
     hour: string;
   };
 };
@@ -153,13 +149,7 @@ export class DynamoRosterRepository implements RosterRepository {
         cursor: roster.rotation.cursor.toNumber(),
       },
       schedule: {
-        monday: roster.schedule.monday,
-        tuesday: roster.schedule.tuesday,
-        wednesday: roster.schedule.wednesday,
-        thursday: roster.schedule.thursday,
-        friday: roster.schedule.friday,
-        saturday: roster.schedule.saturday,
-        sunday: roster.schedule.sunday,
+        dayList: roster.schedule.dayList.items,
         hour: roster.schedule.hour,
       },
     };
@@ -212,22 +202,7 @@ export class DynamoRosterRepository implements RosterRepository {
     return result.Items.map((_) => {
       return this.fromRosterDocument(_ as RosterDocument);
     }).filter((_) => {
-      switch (day) {
-        case Day.MONDAY:
-          return _.schedule.monday;
-        case Day.TUESDAY:
-          return _.schedule.tuesday;
-        case Day.WEDNESDAY:
-          return _.schedule.wednesday;
-        case Day.THURSDAY:
-          return _.schedule.thursday;
-        case Day.FRIDAY:
-          return _.schedule.friday;
-        case Day.SATURDAY:
-          return _.schedule.saturday;
-        case Day.SUNDAY:
-          return _.schedule.sunday;
-      }
+      return _.schedule.dayList.hasDay(day);
     });
   };
 
@@ -249,13 +224,7 @@ export class DynamoRosterRepository implements RosterRepository {
         new Days(doc.rotation.cursor),
       ),
       new Schedule(
-        doc.schedule.monday,
-        doc.schedule.tuesday,
-        doc.schedule.wednesday,
-        doc.schedule.thursday,
-        doc.schedule.friday,
-        doc.schedule.saturday,
-        doc.schedule.sunday,
+        new DayList(doc.schedule.dayList.map(dayFromString)),
         hourFromString(doc.schedule.hour),
       ),
     );
