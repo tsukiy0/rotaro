@@ -12,24 +12,9 @@ export const PersonInput: React.FC<BaseProps<{
   value?: Person;
   onChange: (value: Person) => void;
 }>> = ({ className, value, onChange }) => {
-  const [name, setName] = useState<string>("");
   const [error, setError] = useState<Error | undefined>();
 
-  useEffect(() => {
-    setName(value?.name ?? "");
-  }, [value]);
-
-  useEffect(() => {
-    try {
-      setError(undefined);
-      if (name) {
-        const person = new Person(PersonIdRandomizer.random(), name);
-        onChange(person);
-      }
-    } catch (e) {
-      setError(e);
-    }
-  }, [name, onChange]);
+  const name = value ? value.name : "";
 
   return (
     <FormControl isInvalid={Boolean(error)} className={className}>
@@ -38,7 +23,17 @@ export const PersonInput: React.FC<BaseProps<{
         name="name"
         placeholder="name"
         value={name}
-        onChange={(e: any) => setName(e.target.value)}
+        onChange={(e: any) => {
+          try {
+            const person = new Person(
+              PersonIdRandomizer.random(),
+              e.target.value,
+            );
+            onChange(person);
+          } catch (err) {
+            setError(err);
+          }
+        }}
       />
       <FormErrorMessage>{error?.message}</FormErrorMessage>
     </FormControl>
