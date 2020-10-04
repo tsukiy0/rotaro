@@ -6,52 +6,38 @@ import {
   FormLabel,
 } from "@chakra-ui/core";
 import { Day, dayFromString, DayList } from "@rotaro/core";
-import { isArrayEqual } from "@tsukiy0/tscore";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BaseProps } from "../models/BaseProps";
 
 export const DayListInput: React.FC<BaseProps<{
   value?: DayList;
   onChange: (value: DayList) => void;
 }>> = ({ className, value, onChange }) => {
-  const [days, setDays] = useState<Day[]>([]);
+  const id = "dayList";
   const [error, setError] = useState<Error | undefined>();
 
-  useEffect(() => {
-    if (!value) {
-      return setDays([]);
-    }
-
-    if (isArrayEqual(value.items, days, (a, b) => a === b)) {
-      return;
-    }
-
-    setDays([...value.items]);
-  }, [value, days]);
-
-  useEffect(() => {
-    try {
-      setError(undefined);
-      onChange(new DayList(days));
-    } catch (e) {
-      setError(e);
-    }
-  }, [days, onChange]);
+  const items = value ? [...value.items] : [];
 
   return (
     <FormControl className={className}>
-      <FormLabel htmlFor="dayList">Day List</FormLabel>
+      <FormLabel htmlFor={id}>Day List</FormLabel>
       <CheckboxGroup
-        name="dayList"
-        value={days}
+        name={id}
+        value={items}
         onChange={(values) => {
-          setDays(values.map((_) => dayFromString(_ as string)));
+          try {
+            onChange(
+              new DayList(values.map((_) => dayFromString(_ as string))),
+            );
+          } catch (e) {
+            setError(e);
+          }
         }}
       >
-        {Object.values(Day).map((_) => {
+        {Object.values(Day).map((value) => {
           return (
-            <Checkbox key={_} value={_}>
-              {_}
+            <Checkbox key={value} value={value}>
+              {value}
             </Checkbox>
           );
         })}

@@ -5,23 +5,24 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/core";
 import { Person, PersonIdRandomizer } from "@rotaro/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BaseProps } from "../models/BaseProps";
 
 export const PersonInput: React.FC<BaseProps<{
   value?: Person;
   onChange: (value: Person) => void;
 }>> = ({ className, value, onChange }) => {
+  const id = "name";
   const [error, setError] = useState<Error | undefined>();
 
   const name = value ? value.name : "";
 
   return (
     <FormControl isInvalid={Boolean(error)} className={className}>
-      <FormLabel htmlFor="name">Name</FormLabel>
+      <FormLabel htmlFor={id}>Name</FormLabel>
       <Input
-        name="name"
-        placeholder="name"
+        id="name"
+        placeholder="Enter a name"
         value={name}
         onChange={(e: any) => {
           try {

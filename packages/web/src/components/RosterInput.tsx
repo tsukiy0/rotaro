@@ -12,6 +12,8 @@ export const RosterInput: React.FC<BaseProps<{
   const [personList, setPersonList] = useState<PersonList | undefined>();
   const [schedule, setSchedule] = useState<Schedule | undefined>();
 
+  console.log(schedule);
+
   return (
     <Box>
       <PersonListInput value={personList} onChange={setPersonList} />
