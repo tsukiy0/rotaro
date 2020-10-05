@@ -20,7 +20,7 @@ export const NavBar = React.forwardRef<HTMLDivElement, BaseProps>(
         alignItems="center"
         padding={theme.space[4]}
       >
-        <Box onClick={() => router.push("/")}>
+        <Box onClick={() => router.push("/")} cursor="pointer">
           <Logo />
         </Box>
         <Box>
