@@ -1,4 +1,11 @@
-import { Box, Button, Heading, Stack } from "@chakra-ui/core";
+import {
+  Box,
+  Button,
+  Heading,
+  IconButton,
+  Stack,
+  Badge,
+} from "@chakra-ui/core";
 import {
   Days,
   PersonDays,
@@ -7,9 +14,10 @@ import {
   PersonRotation,
 } from "@rotaro/core";
 import React, { useEffect, useState } from "react";
+import { CloseIcon } from "@chakra-ui/icons";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { BaseProps } from "../models/BaseProps";
-import { Card } from "./Card";
+import { Card, CardHeader } from "./Card";
 import { DaysInput } from "./DaysInput";
 import { SelectPersonInput } from "./SelectPersonInput";
 
@@ -48,6 +56,14 @@ export const PersonRotationForm: React.FC<BaseProps<{
     }
   };
 
+  const onRemovePersonDay = (i1: number) => {
+    setPersonRotationItems(
+      personRotationItems.filter((_, i2) => {
+        return i2 !== i1;
+      }),
+    );
+  };
+
   const onSubmit = () => {
     try {
       onChange(
@@ -61,27 +77,36 @@ export const PersonRotationForm: React.FC<BaseProps<{
   const personRotationItemsView = (
     <Stack spacing={4}>
       {personRotationItems.map((_, i) => {
+        const person = personList.items.find((person) =>
+          person.id.equals(_.personId),
+        );
+
+        if (!person) {
+          return null;
+        }
+
         return (
           <Box key={i}>
-            <Card>
-              <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Heading as="h1" size="md">
-                  {
-                    personList.items.find((person) =>
-                      person.id.equals(_.personId),
-                    )?.name
+            <Card
+              header={
+                <CardHeader
+                  left={
+                    <Stack direction="row">
+                      <Heading size="sm">{person.name}</Heading>
+                      <Badge>{_.days.toNumber()}</Badge>
+                    </Stack>
                   }
-                </Heading>
-                <Heading as="h2" size="sm">
-                  {_.days.toNumber()}
-                </Heading>
-              </Box>
-            </Card>
+                  right={
+                    <IconButton
+                      aria-label="remove person day"
+                      icon={<CloseIcon />}
+                      size="sm"
+                      onClick={() => onRemovePersonDay(i)}
+                    />
+                  }
+                />
+              }
+            />
           </Box>
         );
       })}
