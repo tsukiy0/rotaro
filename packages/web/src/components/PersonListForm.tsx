@@ -1,11 +1,11 @@
-import { Box, Button, Heading, Stack } from "@chakra-ui/core";
-import { Person, PersonList } from "@rotaro/core";
+import { Box, Button, Heading, IconButton, Stack } from "@chakra-ui/core";
+import { Person, PersonId, PersonList } from "@rotaro/core";
 import React, { useEffect, useState } from "react";
+import { CloseIcon } from "@chakra-ui/icons";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { BaseProps } from "../models/BaseProps";
-import { Card } from "./Card";
+import { Card, CardHeader } from "./Card";
 import { PersonInput } from "./PersonInput";
-import { PersonListView } from "./PersonListView";
 
 export const PersonListForm: React.FC<BaseProps<{
   value?: PersonList;
@@ -30,22 +30,58 @@ export const PersonListForm: React.FC<BaseProps<{
     }
   };
 
+  const onRemovePerson = (personId: PersonId) => {
+    setPersonListItems(
+      personListItems.filter((_) => {
+        return !_.id.equals(personId);
+      }),
+    );
+  };
+
+  const addPersonForm = (
+    <Stack spacing={4}>
+      <Box>
+        <PersonInput value={person} onChange={setPerson} />
+      </Box>
+      <Box>
+        <Button onClick={onAddPerson}>Add</Button>
+      </Box>
+    </Stack>
+  );
+
+  const personListItemsView = (
+    <Stack spacing={4}>
+      {personListItems.map((_) => {
+        return (
+          <Box key={_.id.toString()}>
+            <Card
+              header={
+                <CardHeader
+                  left={<Heading size="sm">{_.name}</Heading>}
+                  right={
+                    <IconButton
+                      aria-label="remove person"
+                      icon={<CloseIcon />}
+                      size="sm"
+                      onClick={() => onRemovePerson(_.id)}
+                    />
+                  }
+                />
+              }
+            />
+          </Box>
+        );
+      })}
+    </Stack>
+  );
+
   return (
     <Stack className={className} spacing={4}>
       <Box>
-        <Card className={className} header={<Heading>People</Heading>}>
+        <Card header={<Heading>People</Heading>}>
           <Stack spacing={4}>
-            <Box>
-              <PersonInput value={person} onChange={setPerson} />
-            </Box>
-            <Box>
-              <Button onClick={onAddPerson}>Add</Button>
-            </Box>
-            {personListItems.length > 0 && (
-              <Box>
-                <PersonListView personList={new PersonList(personListItems)} />
-              </Box>
-            )}
+            <Box>{addPersonForm}</Box>
+            <Box>{personListItemsView}</Box>
           </Stack>
         </Card>
       </Box>

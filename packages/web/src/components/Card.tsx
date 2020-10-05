@@ -10,17 +10,29 @@ export const Card: React.FC<BaseProps<{
 
   return (
     <Box className={className} borderWidth="1px">
-      {header && (
-        <Box borderBottomWidth="1px" padding={theme.space[4]}>
-          {header}
-        </Box>
-      )}
-      <Box padding={theme.space[4]}>{children}</Box>
-      {footer && (
-        <Box borderTopWidth="1px" padding={theme.space[4]}>
-          {footer}
-        </Box>
-      )}
+      {header && <Box padding={theme.space[4]}>{header}</Box>}
+      {header && children && <Box borderBottomWidth="1px" />}
+      {children && <Box padding={theme.space[4]}>{children}</Box>}
+      {footer && children && <Box borderTopWidth="1px" />}
+      {footer && <Box padding={theme.space[4]}>{footer}</Box>}
+    </Box>
+  );
+};
+
+export const CardHeader: React.FC<BaseProps<{
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+}>> = ({ className, left, right }) => {
+  return (
+    <Box
+      className={className}
+      display="flex"
+      flexDirection="row"
+      justifyContent="space-between"
+      alignItems="center"
+    >
+      <Box>{left}</Box>
+      <Box>{right}</Box>
     </Box>
   );
 };
