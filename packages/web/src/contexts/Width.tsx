@@ -1,9 +1,10 @@
-import { Box } from "@chakra-ui/core";
-import React, { useCallback, useRef, useState } from "react";
+import { Box, useTheme } from "@chakra-ui/core";
+import React, { useCallback, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { BaseProps } from "../models/BaseProps";
 
 export const Width: React.FC<BaseProps> = ({ className, children }) => {
+  const theme = useTheme();
   const [navHeight, setNavHeight] = useState<number>(0);
 
   const ref = useCallback((node: HTMLDivElement) => {
@@ -27,6 +28,7 @@ export const Width: React.FC<BaseProps> = ({ className, children }) => {
           maxWidth="768px"
           width="100%"
           height={`calc(100vh - ${navHeight}px)`}
+          padding={theme.space[4]}
         >
           {children}
         </Box>

@@ -1,4 +1,4 @@
-import { Box, Stack } from "@chakra-ui/core";
+import { Box, Button, Heading, Stack } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import React from "react";
 import { BaseProps } from "../models/BaseProps";
@@ -17,17 +17,14 @@ export const HomePage: React.FC<BaseProps> = ({ className }) => {
       justifyContent="center"
       alignItems="center"
     >
-      <Stack spacing={4} alignItems="center">
+      <Stack spacing={8} alignItems="center">
         <Box>
-          <Logo large />
+          <Heading textAlign="center">Build simple rotating rosters.</Heading>
         </Box>
         <Box>
-          <FullWidthButton
-            onClick={() => router.push("/new")}
-            colorScheme="green"
-          >
+          <Button onClick={() => router.push("/new")} colorScheme="green">
             Create
-          </FullWidthButton>
+          </Button>
         </Box>
       </Stack>
     </Box>

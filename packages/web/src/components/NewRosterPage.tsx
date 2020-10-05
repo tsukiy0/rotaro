@@ -124,9 +124,5 @@ export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
     ),
   }[step];
 
-  return (
-    <Box className={className} padding={theme.space[4]}>
-      {stepView}
-    </Box>
-  );
+  return <Box className={className}>{stepView}</Box>;
 };
