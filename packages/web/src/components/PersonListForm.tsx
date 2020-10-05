@@ -1,26 +1,53 @@
-import { Box, Heading, Stack } from "@chakra-ui/core";
+import { Box, Button, Heading, Stack } from "@chakra-ui/core";
 import { Person, PersonList } from "@rotaro/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { BaseProps } from "../models/BaseProps";
 import { Card } from "./Card";
 import { PersonInput } from "./PersonInput";
 
 export const PersonListForm: React.FC<BaseProps<{
   value?: PersonList;
-  onChange: (value: PersonList) => void;
-}>> = ({ className, value, onChange }) => {
-  const existingItems = value ? value.items : [];
-
+  onSubmit: (value: PersonList) => void;
+}>> = ({ className, value, onSubmit }) => {
+  const { onError } = useAlert();
+  const [personListItems, setPersonListItems] = useState<readonly Person[]>([]);
   const [person, setPerson] = useState<Person | undefined>();
+
+  useEffect(() => {
+    if (value) {
+      setPersonListItems(value.items);
+    } else {
+      setPersonListItems([]);
+    }
+  }, [value]);
+
   const onAddPerson = () => {
     if (person) {
+      setPersonListItems([...personListItems, person]);
       setPerson(undefined);
-      onChange(new PersonList([...existingItems, person]));
     }
   };
 
   return (
-    <Card className={className} header={<Heading>People</Heading>}>
+    <Card
+      className={className}
+      header={<Heading>People</Heading>}
+      footer={
+        <Button
+          onClick={() => {
+            try {
+              const personList = new PersonList(personListItems);
+              onSubmit(personList);
+            } catch (err) {
+              onError(err);
+            }
+          }}
+        >
+          Submit
+        </Button>
+      }
+    >
       <Stack spacing={4}>
         <Box>
           <form
@@ -34,7 +61,7 @@ export const PersonListForm: React.FC<BaseProps<{
         </Box>
         <Box>
           <Stack spacing={4}>
-            {existingItems.map((_) => {
+            {personListItems.map((_) => {
               return (
                 <Box key={_.id.toString()}>
                   <Card>{_.name}</Card>

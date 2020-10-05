@@ -48,16 +48,14 @@ export const NewRosterFlow: React.FC<BaseProps<{
     </Box>
   );
 
-  console.log(step);
-
   const stepView = {
     [Step.PERSON_LIST]: (
-      <Stack spacing={4}>
-        <Box>
-          <PersonListForm value={personList} onChange={setPersonList} />
-        </Box>
-        {nextView}
-      </Stack>
+      <PersonListForm
+        onSubmit={(value) => {
+          setPersonList(value);
+          onNext();
+        }}
+      />
     ),
     [Step.PERSON_ROTATION]: personList ? (
       <Stack spacing={4}>
