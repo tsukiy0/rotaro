@@ -5,6 +5,7 @@ import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { BaseProps } from "../models/BaseProps";
 import { Card } from "./Card";
 import { PersonInput } from "./PersonInput";
+import { PersonListView } from "./PersonListView";
 
 export const PersonListForm: React.FC<BaseProps<{
   value?: PersonList;
@@ -30,39 +31,40 @@ export const PersonListForm: React.FC<BaseProps<{
   };
 
   return (
-    <Card
-      className={className}
-      header={<Heading>People</Heading>}
-      footer={
-        <Button
-          onClick={() => {
-            try {
-              const personList = new PersonList(personListItems);
-              onChange(personList);
-            } catch (err) {
-              onError(err);
-            }
-          }}
-        >
-          Submit
-        </Button>
-      }
-    >
-      <Stack spacing={4}>
-        <Box>
-          <PersonInput value={person} onChange={setPerson} />
-        </Box>
-        <Box>
-          <Button onClick={onAddPerson}>Add</Button>
-        </Box>
-        {personListItems.map((_) => {
-          return (
-            <Box key={_.id.toString()}>
-              <Card>{_.name}</Card>
+    <Stack className={className} spacing={4}>
+      <Box>
+        <Card className={className} header={<Heading>People</Heading>}>
+          <Stack spacing={4}>
+            <Box>
+              <PersonInput value={person} onChange={setPerson} />
             </Box>
-          );
-        })}
-      </Stack>
-    </Card>
+            <Box>
+              <Button onClick={onAddPerson}>Add</Button>
+            </Box>
+            {personListItems.length > 0 && (
+              <Box>
+                <PersonListView personList={new PersonList(personListItems)} />
+              </Box>
+            )}
+          </Stack>
+        </Card>
+      </Box>
+      <Box>
+        <Card>
+          <Button
+            onClick={() => {
+              try {
+                const personList = new PersonList(personListItems);
+                onChange(personList);
+              } catch (err) {
+                onError(err);
+              }
+            }}
+          >
+            Submit
+          </Button>
+        </Card>
+      </Box>
+    </Stack>
   );
 };
