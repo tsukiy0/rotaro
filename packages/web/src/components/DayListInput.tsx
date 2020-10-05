@@ -1,9 +1,11 @@
 import {
+  Box,
   Checkbox,
   CheckboxGroup,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Stack,
 } from "@chakra-ui/core";
 import { Day, dayFromString, DayList } from "@rotaro/core";
 import React, { useState } from "react";
@@ -32,13 +34,15 @@ export const DayListInput: React.FC<BaseProps<{
           }
         }}
       >
-        {Object.values(Day).map((value) => {
-          return (
-            <Checkbox key={value} value={value}>
-              {value}
-            </Checkbox>
-          );
-        })}
+        <Stack spacing={2}>
+          {Object.values(Day).map((value) => {
+            return (
+              <Box key={value}>
+                <Checkbox value={value}>{value}</Checkbox>
+              </Box>
+            );
+          })}
+        </Stack>
       </CheckboxGroup>
       <FormErrorMessage>{error?.message}</FormErrorMessage>
     </FormControl>
