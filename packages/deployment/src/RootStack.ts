@@ -2,6 +2,7 @@ import { Stack, Construct, StackProps } from "@aws-cdk/core";
 import { ApiConstruct } from "./constructs/ApiConstruct";
 import { DatabaseConstruct } from "./constructs/DatabaseConstruct";
 import { OutputConstruct } from "./constructs/OutputConstruct";
+import { TickerConstruct } from "./constructs/TickerConstruct";
 import { WebConstruct } from "./constructs/WebConstruct";
 
 export class RootStack extends Stack {
@@ -11,6 +12,10 @@ export class RootStack extends Stack {
     const database = new DatabaseConstruct(this, "Database");
 
     const api = new ApiConstruct(this, "Api", {
+      database,
+    });
+
+    new TickerConstruct(this, "Ticker", {
       database,
     });
 
