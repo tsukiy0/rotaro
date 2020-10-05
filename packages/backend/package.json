@@ -21,8 +21,8 @@
     "lint:fix": "yarn lint --fix",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "build": "tsc --build .",
-    "test": "jest",
-    "test:integration": "jest --config jest.integration.config.js",
+    "test": "TZ=UTC jest",
+    "test:integration": "TZ=UTC jest --config jest.integration.config.js",
     "test:integration:debug": "ndb yarn test:integration"
   }
 }

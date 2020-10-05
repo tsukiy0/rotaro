@@ -17,6 +17,6 @@
     "lint:fix": "yarn lint --fix",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "build": "tsc --build .",
-    "test": "jest"
+    "test": "TZ=UTC jest"
   }
 }

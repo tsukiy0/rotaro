@@ -1,4 +1,6 @@
 import {
+  Day,
+  Hour,
   Roster,
   RosterId,
   RosterNotFoundError,
@@ -35,6 +37,13 @@ export class BackendRosterService implements RosterService {
     }
 
     await this.rosterRepository.deleteRoster(rosterId);
+  };
+
+  public readonly listRostersByDayAndHour = async (
+    day: Day,
+    hour: Hour,
+  ): Promise<readonly Roster[]> => {
+    return await this.rosterRepository.listRostersByDayAndHour(day, hour);
   };
 
   public readonly tickRoster = async (rosterId: RosterId): Promise<void> => {

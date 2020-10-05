@@ -1,4 +1,4 @@
-import { BaseError } from "@tsukiy0/tscore";
+import { BaseError, DateTime } from "@tsukiy0/tscore";
 
 export enum Hour {
   _01 = "01",
@@ -43,4 +43,65 @@ export const hourFromString = (input: string): Hour => {
   }
 
   throw new BadHourStringError(input);
+};
+
+export class BadHourDateTimeError extends BaseError {
+  constructor(public readonly input: DateTime) {
+    super();
+  }
+}
+
+export const hourFromDateTime = (input: DateTime): Hour => {
+  switch (input.toDate().getHours()) {
+    case 1:
+      return Hour._01;
+    case 2:
+      return Hour._02;
+    case 3:
+      return Hour._03;
+    case 4:
+      return Hour._04;
+    case 5:
+      return Hour._05;
+    case 6:
+      return Hour._06;
+    case 7:
+      return Hour._07;
+    case 8:
+      return Hour._08;
+    case 9:
+      return Hour._09;
+    case 10:
+      return Hour._10;
+    case 11:
+      return Hour._11;
+    case 12:
+      return Hour._12;
+    case 13:
+      return Hour._13;
+    case 14:
+      return Hour._14;
+    case 15:
+      return Hour._15;
+    case 16:
+      return Hour._16;
+    case 17:
+      return Hour._17;
+    case 18:
+      return Hour._18;
+    case 19:
+      return Hour._19;
+    case 20:
+      return Hour._20;
+    case 21:
+      return Hour._21;
+    case 22:
+      return Hour._22;
+    case 23:
+      return Hour._23;
+    case 0:
+      return Hour._24;
+    default:
+      throw new BadHourDateTimeError(input);
+  }
 };
