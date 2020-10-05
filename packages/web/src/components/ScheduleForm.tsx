@@ -7,7 +7,7 @@ import { Card } from "./Card";
 import { DayListInput } from "./DayListInput";
 import { HourInput } from "./HourInput";
 
-export const ScheduleInput: React.FC<BaseProps<{
+export const ScheduleForm: React.FC<BaseProps<{
   value?: Schedule;
   onChange: (value: Schedule) => void;
 }>> = ({ className, value, onChange }) => {

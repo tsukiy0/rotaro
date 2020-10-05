@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { BaseProps } from "../models/BaseProps";
 import { PersonListForm } from "./PersonListForm";
 import { PersonRotationInput } from "./PersonRotationInput";
-import { ScheduleInput } from "./ScheduleInput";
+import { ScheduleForm } from "./ScheduleForm";
 
 export const RosterInput: React.FC<BaseProps<{
   //   value?: Roster;
@@ -19,7 +19,7 @@ export const RosterInput: React.FC<BaseProps<{
   return (
     <Box>
       <PersonListForm value={personList} onChange={setPersonList} />
-      <ScheduleInput value={schedule} onChange={setSchedule} />
+      <ScheduleForm value={schedule} onChange={setSchedule} />
       {personList && (
         <PersonRotationInput
           personList={personList}
