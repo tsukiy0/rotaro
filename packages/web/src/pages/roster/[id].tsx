@@ -1,6 +1,7 @@
 import { RosterId } from "@rotaro/core";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { NotFoundPage } from "../../components/ErrorPage";
 import { ReadRosterPage } from "../../components/ReadRosterPage";
 
 const Existing: React.FC = () => {
@@ -16,8 +17,7 @@ const Existing: React.FC = () => {
   }, [router]);
 
   if (!rosterId) {
-    // @TODO make ErrorPage
-    return null;
+    return <NotFoundPage />;
   }
 
   return <ReadRosterPage rosterId={rosterId} />;
