@@ -50,26 +50,18 @@ export const PersonListForm: React.FC<BaseProps<{
     >
       <Stack spacing={4}>
         <Box>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              onAddPerson();
-            }}
-          >
-            <PersonInput value={person} onChange={setPerson} />
-          </form>
+          <PersonInput value={person} onChange={setPerson} />
         </Box>
         <Box>
-          <Stack spacing={4}>
-            {personListItems.map((_) => {
-              return (
-                <Box key={_.id.toString()}>
-                  <Card>{_.name}</Card>
-                </Box>
-              );
-            })}
-          </Stack>
+          <Button onClick={onAddPerson}>Add</Button>
         </Box>
+        {personListItems.map((_) => {
+          return (
+            <Box key={_.id.toString()}>
+              <Card>{_.name}</Card>
+            </Box>
+          );
+        })}
       </Stack>
     </Card>
   );
