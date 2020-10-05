@@ -5,6 +5,7 @@ import {
   Select,
 } from "@chakra-ui/core";
 import { Hour, hourFromString } from "@rotaro/core";
+import { GuidRandomizer } from "@tsukiy0/tscore";
 import React, { useState } from "react";
 import { BaseProps } from "../models/BaseProps";
 
@@ -12,7 +13,7 @@ export const HourInput: React.FC<BaseProps<{
   value?: Hour;
   onChange: (value: Hour) => void;
 }>> = ({ className, value, onChange }) => {
-  const id = "hour";
+  const id = GuidRandomizer.random().toString();
   const [error, setError] = useState<Error | undefined>();
 
   return (
