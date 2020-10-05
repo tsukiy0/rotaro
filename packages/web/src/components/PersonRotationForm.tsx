@@ -21,11 +21,7 @@ export const PersonRotationForm: React.FC<BaseProps<{
   const existingItem = value ? value.rotation : [];
 
   return (
-    <Card
-      className={className}
-      header={<Heading>Rotation</Heading>}
-      footer={<Button>Submit</Button>}
-    >
+    <Card className={className} header={<Heading>Rotation</Heading>}>
       <Stack spacing={4}>
         <Box>
           <SelectPersonInput

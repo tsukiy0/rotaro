@@ -1,10 +1,10 @@
 import React from "react";
-import { RosterInput } from "../../components/RosterInput";
+import { NewRosterFlow } from "../../components/NewRosterFlow";
 
 const New: React.FC = () => {
   return (
     <div>
-      <RosterInput />
+      <NewRosterFlow />
     </div>
   );
 };
