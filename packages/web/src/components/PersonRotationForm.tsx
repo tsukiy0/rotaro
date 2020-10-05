@@ -1,6 +1,6 @@
 import { Box, Button, Heading, Stack } from "@chakra-ui/core";
 import { Days, PersonDays, PersonList, PersonRotation } from "@rotaro/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { BaseProps } from "../models/BaseProps";
 import { Card } from "./Card";
@@ -13,15 +13,46 @@ export const PersonRotationForm: React.FC<BaseProps<{
   onChange: (value: PersonRotation) => void;
 }>> = ({ className, value, onChange, personList }) => {
   const { onError } = useAlert();
+  const [personRotationItems, setPersonRotationItems] = useState<
+    readonly PersonDays[]
+  >([]);
   const [personDays, setPersonDays] = useState<PersonDays | undefined>();
+
+  useEffect(() => {
+    if (value) {
+      setPersonRotationItems(value.rotation);
+    } else {
+      setPersonRotationItems([]);
+    }
+  }, [value]);
 
   const defaultPersonId = personList.items[0].id;
   const defaultDays = new Days(7);
 
-  const existingItem = value ? value.rotation : [];
-
   return (
-    <Card className={className} header={<Heading>Rotation</Heading>}>
+    <Card
+      className={className}
+      header={<Heading>Rotation</Heading>}
+      footer={
+        <Button
+          onClick={() => {
+            try {
+              onChange(
+                new PersonRotation(
+                  personList,
+                  personRotationItems,
+                  new Days(1),
+                ),
+              );
+            } catch (err) {
+              onError(err);
+            }
+          }}
+        >
+          Submit
+        </Button>
+      }
+    >
       <Stack spacing={4}>
         <Box>
           <SelectPersonInput
@@ -62,21 +93,11 @@ export const PersonRotationForm: React.FC<BaseProps<{
         <Box>
           <Button
             onClick={() => {
-              try {
-                if (!personDays) {
-                  return;
-                }
-
-                onChange(
-                  new PersonRotation(
-                    personList,
-                    [...(value ? value.rotation : []), personDays],
-                    new Days(1),
-                  ),
-                );
-              } catch (err) {
-                onError(err);
+              if (!personDays) {
+                return;
               }
+
+              setPersonRotationItems([...personRotationItems, personDays]);
             }}
           >
             Add
@@ -84,7 +105,7 @@ export const PersonRotationForm: React.FC<BaseProps<{
         </Box>
         <Box>
           <Stack spacing={4}>
-            {existingItem.map((_, i) => {
+            {personRotationItems.map((_, i) => {
               return (
                 <Box key={i}>
                   <Card>

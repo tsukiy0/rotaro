@@ -8,8 +8,8 @@ import { PersonInput } from "./PersonInput";
 
 export const PersonListForm: React.FC<BaseProps<{
   value?: PersonList;
-  onSubmit: (value: PersonList) => void;
-}>> = ({ className, value, onSubmit }) => {
+  onChange: (value: PersonList) => void;
+}>> = ({ className, value, onChange }) => {
   const { onError } = useAlert();
   const [personListItems, setPersonListItems] = useState<readonly Person[]>([]);
   const [person, setPerson] = useState<Person | undefined>();
@@ -38,7 +38,7 @@ export const PersonListForm: React.FC<BaseProps<{
           onClick={() => {
             try {
               const personList = new PersonList(personListItems);
-              onSubmit(personList);
+              onChange(personList);
             } catch (err) {
               onError(err);
             }
