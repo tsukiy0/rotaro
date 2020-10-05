@@ -21,7 +21,7 @@ export const PersonInput: React.FC<BaseProps<{
     <FormControl isInvalid={Boolean(error)} className={className}>
       <FormLabel htmlFor={id}>Name</FormLabel>
       <Input
-        id="name"
+        id={id}
         placeholder="Enter a name"
         value={name}
         onChange={(e: any) => {
