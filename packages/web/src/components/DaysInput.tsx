@@ -37,8 +37,7 @@ export const DaysInput: React.FC<BaseProps<{
           }
         }}
       >
-        {/* @TODO bug with value not syncing with display */}
-        <NumberInputField value={value?.toNumber()} />
+        <NumberInputField />
         <NumberInputStepper>
           <NumberIncrementStepper />
           <NumberDecrementStepper />
