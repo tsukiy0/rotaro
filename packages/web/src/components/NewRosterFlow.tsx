@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Stack,
-  useTheme,
-} from "@chakra-ui/core";
+import { Box, CircularProgress, useTheme } from "@chakra-ui/core";
 import {
   PersonList,
   PersonRotation,
@@ -25,13 +19,11 @@ enum Step {
   PERSON_LIST,
   PERSON_ROTATION,
   SCHEDULE,
+  CREATING,
   DONE,
 }
 
-export const NewRosterFlow: React.FC<BaseProps<{
-  //   value?: Roster;
-  //   onChange: (value?: Roster) => Roster;
-}>> = () => {
+export const NewRosterFlow: React.FC<BaseProps> = ({ className }) => {
   const theme = useTheme();
   const { onError } = useAlert();
   const { rosterService } = useServices();
@@ -41,13 +33,11 @@ export const NewRosterFlow: React.FC<BaseProps<{
   const [personRotation, setPersonRotation] = useState<
     PersonRotation | undefined
   >();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onCreate = useCallback(async () => {
     try {
       console.log(personRotation, schedule);
       if (personRotation && schedule) {
-        setIsLoading(true);
         await rosterService.createRoster(
           new Roster(RosterIdRandomizer.random(), personRotation, schedule),
         );
@@ -55,12 +45,12 @@ export const NewRosterFlow: React.FC<BaseProps<{
     } catch (err) {
       onError(err);
     } finally {
-      setIsLoading(false);
+      setStep(Step.DONE);
     }
   }, [rosterService, personRotation, schedule, onError]);
 
   useEffect(() => {
-    if (step === Step.DONE) {
+    if (step === Step.CREATING) {
       onCreate();
     }
   }, [step, onCreate]);
@@ -89,20 +79,21 @@ export const NewRosterFlow: React.FC<BaseProps<{
         value={schedule}
         onChange={(value) => {
           setSchedule(value);
-          setStep(Step.DONE);
+          setStep(Step.CREATING);
         }}
       />
     ),
-    [Step.DONE]: isLoading ? (
-      <Card>
-        <Box display="flex" justifyContent="center" alignItems="center">
-          <CircularProgress isIndeterminate />
-        </Box>
-      </Card>
-    ) : (
-      <Card>Done</Card>
+    [Step.CREATING]: (
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <CircularProgress isIndeterminate />
+      </Box>
     ),
+    [Step.DONE]: <Card>Done</Card>,
   }[step];
 
-  return <Box padding={theme.space[4]}>{stepView}</Box>;
+  return (
+    <Box className={className} padding={theme.space[4]}>
+      {stepView}
+    </Box>
+  );
 };
