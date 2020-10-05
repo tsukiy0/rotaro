@@ -1,11 +1,11 @@
-import { Box, Heading, useTheme } from "@chakra-ui/core";
+import { Box, Heading, useTheme, Stack, Badge } from "@chakra-ui/core";
 import { Roster, RosterId } from "@rotaro/core";
 import React, { useEffect, useState } from "react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { useServices } from "../contexts/ServicesContext/ServicesContext";
 import { BaseProps } from "../models/BaseProps";
-import { Card } from "./Card";
+import { Card, CardHeader } from "./Card";
 import { LoadingPage } from "./LoadingPage";
 
 export const ReadRosterPage: React.FC<BaseProps<{
@@ -36,39 +36,43 @@ export const ReadRosterPage: React.FC<BaseProps<{
 
   return (
     <Box className={className} padding={theme.space[4]}>
-      {roster.rotation.rotation.map((_, i) => {
-        return (
-          <Card key={i}>
-            <Box
-              display="flex"
-              flexDirection="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Heading as="h1" size="md" marginRight={theme.space[4]}>
-                  {
-                    roster.rotation.personList.items.find((person) =>
-                      person.id.equals(_.personId),
-                    )?.name
-                  }
-                </Heading>
-                {roster.rotation.getActivePerson().equals(_.personId) && (
-                  <CheckCircleIcon color={theme.colors.green[400]} />
-                )}
-              </Box>
-              <Heading as="h2" size="sm">
-                {_.days.toNumber()}
-              </Heading>
+      <Stack spacing={4}>
+        {roster.rotation.rotation.map((_, i) => {
+          const person = roster.rotation.personList.items.find((person) =>
+            person.id.equals(_.personId),
+          );
+
+          if (!person) {
+            return null;
+          }
+
+          return (
+            <Box key={i}>
+              <Card
+                header={
+                  <CardHeader
+                    left={
+                      <Stack direction="row">
+                        <Heading size="sm">{person.name}</Heading>
+                        <Badge>{_.days.toNumber()}</Badge>
+                      </Stack>
+                    }
+                    right={
+                      <Box>
+                        {roster.rotation
+                          .getActivePerson()
+                          .equals(_.personId) && (
+                          <CheckCircleIcon color={theme.colors.green[400]} />
+                        )}
+                      </Box>
+                    }
+                  />
+                }
+              />
             </Box>
-          </Card>
-        );
-      })}
+          );
+        })}
+      </Stack>
     </Box>
   );
 };

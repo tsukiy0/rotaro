@@ -1,6 +1,5 @@
 import { useToast } from "@chakra-ui/core";
 import React, { useContext } from "react";
-import { BaseProps } from "../../models/BaseProps";
 
 type AlertValue = {
   onSuccess: (message: string) => void;
