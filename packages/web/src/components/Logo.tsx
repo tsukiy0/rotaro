@@ -19,7 +19,7 @@ export const Logo: React.FC<BaseProps<{
         <style jsx global>{`
           .spin {
             animation-name: spin;
-            animation-duration: 5000ms;
+            animation-duration: 10000ms;
             animation-iteration-count: infinite;
             animation-timing-function: linear;
           }

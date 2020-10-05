@@ -2,8 +2,6 @@ import { Box, Button, Heading, Stack } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import React from "react";
 import { BaseProps } from "../models/BaseProps";
-import { FullWidthButton } from "./FullWidthButton";
-import { Logo } from "./Logo";
 
 export const HomePage: React.FC<BaseProps> = ({ className }) => {
   const router = useRouter();
