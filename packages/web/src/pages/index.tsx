@@ -1,18 +1,8 @@
-import { Button } from "@chakra-ui/core";
 import React from "react";
-import { useAlert } from "../contexts/AlertContext/AlertContext";
+import { HomePage } from "../components/HomePage";
 
-const Index: React.FC = () => {
-  const { onError } = useAlert();
-
-  return (
-    <div>
-      hello world!
-      <Button onClick={() => onError(new Error("wtf is going on"))}>
-        trigger error
-      </Button>
-    </div>
-  );
+const Home: React.FC = () => {
+  return <HomePage />;
 };
 
-export default Index;
+export default Home;
