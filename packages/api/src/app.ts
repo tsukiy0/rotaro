@@ -1,25 +1,12 @@
 import express, { Express } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { SystemConfig } from "@tsukiy0/tscore";
-import { BackendRosterService } from "@rotaro/backend";
 import {
   ErrorSerializerMap,
   RosterIdSerializer,
   RosterSerializer,
   RosterService,
 } from "@rotaro/core";
-
-const setup = async (): Promise<{
-  rosterService: RosterService;
-}> => {
-  const config = new SystemConfig();
-  const dynamoUrl = config.get("DYNAMODB_URL");
-
-  return {
-    rosterService: await BackendRosterService.dev(dynamoUrl),
-  };
-};
 
 const errHandler = (err: Error, res: any) => {
   const serializer = ErrorSerializerMap.fromInstance(err);
@@ -44,7 +31,7 @@ export const getApp = async (
 
   const services = await setup();
 
-  app.post("/createRoster", async (req, res, next) => {
+  app.post("/createRoster", async (req, res) => {
     try {
       await setup();
       const input = RosterSerializer.deserialize(req.body);
@@ -56,7 +43,7 @@ export const getApp = async (
     }
   });
 
-  app.post("/getRoster", async (req, res, next) => {
+  app.post("/getRoster", async (req, res) => {
     try {
       await setup();
       const input = RosterIdSerializer.deserialize(req.body);
@@ -68,7 +55,7 @@ export const getApp = async (
     }
   });
 
-  app.post("/deleteRoster", async (req, res, next) => {
+  app.post("/deleteRoster", async (req, res) => {
     try {
       await setup();
       const input = RosterIdSerializer.deserialize(req.body);

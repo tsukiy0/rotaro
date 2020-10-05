@@ -1,5 +1,5 @@
 import { dayFromDateTime, hourFromDateTime, RosterId } from "@rotaro/core";
-import { BaseError, Clock } from "@tsukiy0/tscore";
+import { BaseError, Clock, SystemClock } from "@tsukiy0/tscore";
 import { BackendRosterService } from "../RosterService/BackendRosterService";
 
 export class BadDateTimeDayError extends BaseError {}
@@ -9,6 +9,12 @@ export class TickerService {
     private readonly rosterService: BackendRosterService,
     private readonly clock: Clock,
   ) {}
+
+  public static readonly default = (
+    rosterService: BackendRosterService,
+  ): TickerService => {
+    return new TickerService(rosterService, new SystemClock());
+  };
 
   public readonly tickAllForNow = async (): Promise<void> => {
     const now = this.clock.now();

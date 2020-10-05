@@ -6,7 +6,6 @@ import {
   RosterNotFoundError,
   RosterService,
 } from "@rotaro/core";
-import { BaseError } from "@tsukiy0/tscore";
 import { DynamoRosterRepository } from "../RosterRepository/DynamoRosterRepository";
 import { RosterRepository } from "../RosterRepository/RosterRepository";
 
