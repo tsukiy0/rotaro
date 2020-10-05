@@ -9,10 +9,10 @@ export const handler: APIGatewayProxyHandler = (event, context) => {
   (async () => {
     const app = await getApp(async () => {
       const config = new SystemConfig();
-      const dynamoUrl = config.get("DYNAMODB_URL");
+      const tableName = config.get("TABLE_NAME");
 
       return {
-        rosterService: BackendRosterService.prod(dynamoUrl),
+        rosterService: BackendRosterService.prod(tableName),
       };
     });
     const server = createServer(app);

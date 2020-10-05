@@ -5,9 +5,9 @@ import { ScheduledHandler } from "aws-lambda";
 
 export const handler: ScheduledHandler = async () => {
   const config = new SystemConfig();
-  const dynamoUrl = config.get("DYNAMODB_URL");
+  const tableName = config.get("TABLE_NAME");
 
-  const rosterService = BackendRosterService.prod(dynamoUrl);
+  const rosterService = BackendRosterService.prod(tableName);
   const tickerService = TickerService.default(rosterService);
 
   await tickerService.tickAllForNow();
