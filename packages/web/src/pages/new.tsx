@@ -1,8 +1,8 @@
 import React from "react";
-import { NewRosterFlow } from "../components/NewRosterFlow";
+import { NewRosterPage } from "../components/NewRosterPage";
 
 const New: React.FC = () => {
-  return <NewRosterFlow />;
+  return <NewRosterPage />;
 };
 
 export default New;

@@ -1,12 +1,14 @@
-import { Box, CircularProgress, useTheme } from "@chakra-ui/core";
+import { Box, CircularProgress, Heading, useTheme } from "@chakra-ui/core";
 import {
   PersonList,
   PersonRotation,
   Roster,
+  RosterId,
   RosterIdRandomizer,
   Schedule,
 } from "@rotaro/core";
 import React, { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { useServices } from "../contexts/ServicesContext/ServicesContext";
 import { BaseProps } from "../models/BaseProps";
@@ -23,7 +25,7 @@ enum Step {
   DONE,
 }
 
-export const NewRosterFlow: React.FC<BaseProps> = ({ className }) => {
+export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
   const theme = useTheme();
   const { onError } = useAlert();
   const { rosterService } = useServices();
@@ -33,13 +35,16 @@ export const NewRosterFlow: React.FC<BaseProps> = ({ className }) => {
   const [personRotation, setPersonRotation] = useState<
     PersonRotation | undefined
   >();
+  const [rosterId, setRosterId] = useState<RosterId | undefined>();
 
   const onCreate = useCallback(async () => {
     try {
       if (personRotation && schedule) {
+        const rosterId = RosterIdRandomizer.random();
         await rosterService.createRoster(
-          new Roster(RosterIdRandomizer.random(), personRotation, schedule),
+          new Roster(rosterId, personRotation, schedule),
         );
+        setRosterId(rosterId);
       }
     } catch (err) {
       onError(err);
@@ -87,7 +92,16 @@ export const NewRosterFlow: React.FC<BaseProps> = ({ className }) => {
         <CircularProgress isIndeterminate />
       </Box>
     ),
-    [Step.DONE]: <Card>Done</Card>,
+    [Step.DONE]: rosterId && (
+      <Card header={<Heading>Done</Heading>}>
+        <Box>Find your roster id here</Box>
+        <Box>
+          <Link href={`/roster/${rosterId.toString()}`}>
+            {rosterId.toString()}
+          </Link>
+        </Box>
+      </Card>
+    ),
   }[step];
 
   return (
