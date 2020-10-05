@@ -1,6 +1,20 @@
-import { Box, Button, Stack, useTheme } from "@chakra-ui/core";
-import { PersonList, PersonRotation, Schedule } from "@rotaro/core";
-import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  useTheme,
+} from "@chakra-ui/core";
+import {
+  PersonList,
+  PersonRotation,
+  Roster,
+  RosterIdRandomizer,
+  Schedule,
+} from "@rotaro/core";
+import React, { useCallback, useEffect, useState } from "react";
+import { useAlert } from "../contexts/AlertContext/AlertContext";
+import { useServices } from "../contexts/ServicesContext/ServicesContext";
 import { BaseProps } from "../models/BaseProps";
 import { Card } from "./Card";
 import { PersonListForm } from "./PersonListForm";
@@ -19,34 +33,37 @@ export const NewRosterFlow: React.FC<BaseProps<{
   //   onChange: (value?: Roster) => Roster;
 }>> = () => {
   const theme = useTheme();
+  const { onError } = useAlert();
+  const { rosterService } = useServices();
   const [step, setStep] = useState<Step>(Step.PERSON_LIST);
   const [personList, setPersonList] = useState<PersonList | undefined>();
   const [schedule, setSchedule] = useState<Schedule | undefined>();
   const [personRotation, setPersonRotation] = useState<
     PersonRotation | undefined
   >();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const onNext = () => {
-    switch (step) {
-      case Step.PERSON_LIST:
-        setStep(Step.PERSON_ROTATION);
-        break;
-      case Step.PERSON_ROTATION:
-        setStep(Step.SCHEDULE);
-        break;
-      case Step.SCHEDULE:
-        setStep(Step.DONE);
-        break;
+  const onCreate = useCallback(async () => {
+    try {
+      console.log(personRotation, schedule);
+      if (personRotation && schedule) {
+        setIsLoading(true);
+        await rosterService.createRoster(
+          new Roster(RosterIdRandomizer.random(), personRotation, schedule),
+        );
+      }
+    } catch (err) {
+      onError(err);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [rosterService, personRotation, schedule, onError]);
 
-  const nextView = (
-    <Box>
-      <Card>
-        <Button onClick={onNext}>Next</Button>
-      </Card>
-    </Box>
-  );
+  useEffect(() => {
+    if (step === Step.DONE) {
+      onCreate();
+    }
+  }, [step, onCreate]);
 
   const stepView = {
     [Step.PERSON_LIST]: (
@@ -68,14 +85,23 @@ export const NewRosterFlow: React.FC<BaseProps<{
       />
     ) : null,
     [Step.SCHEDULE]: (
-      <Stack spacing={4}>
-        <Box>
-          <ScheduleForm value={schedule} onChange={setSchedule} />
-        </Box>
-        {nextView}
-      </Stack>
+      <ScheduleForm
+        value={schedule}
+        onChange={(value) => {
+          setSchedule(value);
+          setStep(Step.DONE);
+        }}
+      />
     ),
-    [Step.DONE]: <Card>Done</Card>,
+    [Step.DONE]: isLoading ? (
+      <Card>
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <CircularProgress isIndeterminate />
+        </Box>
+      </Card>
+    ) : (
+      <Card>Done</Card>
+    ),
   }[step];
 
   return <Box padding={theme.space[4]}>{stepView}</Box>;

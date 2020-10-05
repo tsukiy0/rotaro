@@ -1,6 +1,6 @@
-import { Box, Heading, Stack } from "@chakra-ui/core";
-import { Day, DayList, Hour, Schedule } from "@rotaro/core";
-import React, { useState } from "react";
+import { Box, Button, Heading, Stack } from "@chakra-ui/core";
+import { DayList, Hour, Schedule } from "@rotaro/core";
+import React, { useEffect, useState } from "react";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { BaseProps } from "../models/BaseProps";
 import { Card } from "./Card";
@@ -12,47 +12,45 @@ export const ScheduleForm: React.FC<BaseProps<{
   onChange: (value: Schedule) => void;
 }>> = ({ className, value, onChange }) => {
   const { onError } = useAlert();
+  const [dayList, setDayList] = useState<DayList | undefined>();
+  const [hour, setHour] = useState<Hour | undefined>();
 
-  const defaultDayList = new DayList([
-    Day.MONDAY,
-    Day.TUESDAY,
-    Day.WEDNESDAY,
-    Day.THURSDAY,
-    Day.FRIDAY,
-  ]);
-
-  const defaultHour = Hour._09;
+  useEffect(() => {
+    if (value) {
+      setDayList(value.dayList);
+      setHour(value.hour);
+    } else {
+      setDayList(undefined);
+      setHour(undefined);
+    }
+  }, [value]);
 
   return (
-    <Card className={className} header={<Heading>Schedule</Heading>}>
+    <Card
+      className={className}
+      header={<Heading>Schedule</Heading>}
+      footer={
+        <Button
+          onClick={() => {
+            try {
+              if (dayList && hour) {
+                onChange(new Schedule(dayList, hour));
+              }
+            } catch (err) {
+              onError(err);
+            }
+          }}
+        >
+          Submit
+        </Button>
+      }
+    >
       <Stack spacing={4}>
         <Box>
-          <HourInput
-            value={value?.hour}
-            onChange={(hour) => {
-              try {
-                onChange(
-                  new Schedule(value ? value.dayList : defaultDayList, hour),
-                );
-              } catch (err) {
-                onError(err);
-              }
-            }}
-          />
+          <HourInput value={hour} onChange={setHour} />
         </Box>
         <Box>
-          <DayListInput
-            value={value?.dayList}
-            onChange={(dayList) => {
-              try {
-                onChange(
-                  new Schedule(dayList, value ? value.hour : defaultHour),
-                );
-              } catch (err) {
-                onError(err);
-              }
-            }}
-          />
+          <DayListInput value={dayList} onChange={setDayList} />
         </Box>
       </Stack>
     </Card>
