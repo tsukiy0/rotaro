@@ -31,7 +31,7 @@ export const DaysInput: React.FC<BaseProps<{
         onChange={(e) => {
           setError(undefined);
           try {
-            onChange(new Days(e as number));
+            onChange(new Days(parseInt(e)));
           } catch (err) {
             setError(err);
           }

@@ -1,13 +1,14 @@
 import React from "react";
-import { ThemeProvider, CSSReset, DarkMode } from "@chakra-ui/core";
+import dynamic from "next/dynamic";
+import { theme, ChakraProvider } from "@chakra-ui/core";
+const DarkMode = dynamic(() => import("./DarkMode"), {
+  ssr: false,
+});
 
 export const Chakra: React.FC = ({ children }) => {
   return (
-    <ThemeProvider>
-      <DarkMode>
-        <CSSReset />
-        {children}
-      </DarkMode>
-    </ThemeProvider>
+    <ChakraProvider theme={theme}>
+      <DarkMode>{children}</DarkMode>
+    </ChakraProvider>
   );
 };

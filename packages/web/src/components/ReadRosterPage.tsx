@@ -1,6 +1,7 @@
-import { Box, Heading, Icon, useTheme } from "@chakra-ui/core";
+import { Box, Heading, useTheme } from "@chakra-ui/core";
 import { Roster, RosterId } from "@rotaro/core";
 import React, { useEffect, useState } from "react";
+import { CheckCircleIcon } from "@chakra-ui/icons";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { useServices } from "../contexts/ServicesContext/ServicesContext";
 import { BaseProps } from "../models/BaseProps";
@@ -58,7 +59,7 @@ export const ReadRosterPage: React.FC<BaseProps<{
                   }
                 </Heading>
                 {roster.rotation.getActivePerson().equals(_.personId) && (
-                  <Icon name="check-circle" color={theme.colors.green[400]} />
+                  <CheckCircleIcon color={theme.colors.green[400]} />
                 )}
               </Box>
               <Heading as="h2" size="sm">
