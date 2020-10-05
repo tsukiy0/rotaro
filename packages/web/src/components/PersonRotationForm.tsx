@@ -1,5 +1,11 @@
 import { Box, Button, Heading, Stack } from "@chakra-ui/core";
-import { Days, PersonDays, PersonList, PersonRotation } from "@rotaro/core";
+import {
+  Days,
+  PersonDays,
+  PersonId,
+  PersonList,
+  PersonRotation,
+} from "@rotaro/core";
 import React, { useEffect, useState } from "react";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { BaseProps } from "../models/BaseProps";
@@ -16,7 +22,8 @@ export const PersonRotationForm: React.FC<BaseProps<{
   const [personRotationItems, setPersonRotationItems] = useState<
     readonly PersonDays[]
   >([]);
-  const [personDays, setPersonDays] = useState<PersonDays | undefined>();
+  const [days, setDays] = useState<Days | undefined>();
+  const [personId, setPersonId] = useState<PersonId | undefined>();
 
   useEffect(() => {
     if (value) {
@@ -26,112 +33,82 @@ export const PersonRotationForm: React.FC<BaseProps<{
     }
   }, [value]);
 
-  const defaultPersonId = personList.items[0].id;
-  const defaultDays = new Days(7);
+  const onAddPersonDay = () => {
+    try {
+      if (!days || !personId) {
+        return;
+      }
+
+      setPersonRotationItems([
+        ...personRotationItems,
+        new PersonDays(personId, days),
+      ]);
+    } catch (err) {
+      onError(err);
+    }
+  };
+
+  const onSubmit = () => {
+    try {
+      onChange(
+        new PersonRotation(personList, personRotationItems, new Days(1)),
+      );
+    } catch (err) {
+      onError(err);
+    }
+  };
+
+  const personRotationItemsView = (
+    <Stack spacing={4}>
+      {personRotationItems.map((_, i) => {
+        return (
+          <Box key={i}>
+            <Card>
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Heading as="h1" size="md">
+                  {
+                    personList.items.find((person) =>
+                      person.id.equals(_.personId),
+                    )?.name
+                  }
+                </Heading>
+                <Heading as="h2" size="sm">
+                  {_.days.toNumber()}
+                </Heading>
+              </Box>
+            </Card>
+          </Box>
+        );
+      })}
+    </Stack>
+  );
 
   return (
     <Card
       className={className}
       header={<Heading>Rotation</Heading>}
-      footer={
-        <Button
-          onClick={() => {
-            try {
-              onChange(
-                new PersonRotation(
-                  personList,
-                  personRotationItems,
-                  new Days(1),
-                ),
-              );
-            } catch (err) {
-              onError(err);
-            }
-          }}
-        >
-          Submit
-        </Button>
-      }
+      footer={<Button onClick={onSubmit}>Submit</Button>}
     >
       <Stack spacing={4}>
         <Box>
           <SelectPersonInput
             personList={personList}
-            value={personDays?.personId}
-            onChange={(personId) => {
-              try {
-                setPersonDays(
-                  new PersonDays(
-                    personId,
-                    personDays ? personDays.days : defaultDays,
-                  ),
-                );
-              } catch (err) {
-                onError(err);
-              }
-            }}
+            value={personId}
+            onChange={setPersonId}
           />
         </Box>
         <Box>
-          <DaysInput
-            label="Days"
-            value={personDays?.days}
-            onChange={(days) => {
-              try {
-                setPersonDays(
-                  new PersonDays(
-                    personDays ? personDays.personId : defaultPersonId,
-                    days,
-                  ),
-                );
-              } catch (err) {
-                onError(err);
-              }
-            }}
-          />
+          <DaysInput label="Days" value={days} onChange={setDays} />
         </Box>
         <Box>
-          <Button
-            onClick={() => {
-              if (!personDays) {
-                return;
-              }
-
-              setPersonRotationItems([...personRotationItems, personDays]);
-            }}
-          >
-            Add
-          </Button>
+          <Button onClick={onAddPersonDay}>Add</Button>
         </Box>
-        <Box>
-          <Stack spacing={4}>
-            {personRotationItems.map((_, i) => {
-              return (
-                <Box key={i}>
-                  <Card>
-                    <Box
-                      display="flex"
-                      flexDirection="row"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Heading as="h1" size="md">
-                        {
-                          personList.items.find((person) =>
-                            person.id.equals(_.personId),
-                          )?.name
-                        }
-                      </Heading>
-                      <Heading as="h2" size="sm">
-                        {_.days.toNumber()}
-                      </Heading>
-                    </Box>
-                  </Card>
-                </Box>
-              );
-            })}
-          </Stack>
-        </Box>
+        <Box>{personRotationItemsView}</Box>
       </Stack>
     </Card>
   );
