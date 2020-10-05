@@ -3,10 +3,9 @@ import { testSerializer } from "@tsukiy0/tscore/dist/models/Serializer.testTempl
 import { Days } from "./Days";
 import { Person, PersonIdRandomizer } from "./Person";
 import { PersonDays } from "./PersonDays";
-import { PersonList } from "./PersonList";
+import { PersonList, PersonNotFoundError } from "./PersonList";
 import {
   CursorGreaterThanTotalDaysError,
-  PersonNotFoundError,
   PersonRotation,
   PersonRotationSerializer,
 } from "./PersonRotation";
@@ -87,6 +86,31 @@ describe("PersonRotation", () => {
       const actual = rotation.getTotalDays();
 
       expect(actual.equals(new Days(5))).toBeTruthy();
+    });
+  });
+
+  describe("getActivePerson", () => {
+    it("gets active", () => {
+      const personId1 = PersonIdRandomizer.random();
+      const personId2 = PersonIdRandomizer.random();
+      const personId3 = PersonIdRandomizer.random();
+      const rotation = new PersonRotation(
+        new PersonList([
+          new Person(personId1, "bob"),
+          new Person(personId2, "jim"),
+          new Person(personId3, "jim"),
+        ]),
+        [
+          new PersonDays(personId1, new Days(2)),
+          new PersonDays(personId2, new Days(3)),
+          new PersonDays(personId3, new Days(4)),
+        ],
+        new Days(6),
+      );
+
+      const actual = rotation.getActivePerson();
+
+      expect(actual.equals(personId3)).toBeTruthy();
     });
   });
 

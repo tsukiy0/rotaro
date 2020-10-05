@@ -4,12 +4,13 @@ import {
   isArrayEqual,
   Serializer,
 } from "@tsukiy0/tscore";
-import { Person, PersonJson, PersonSerializer } from "./Person";
+import { Person, PersonId, PersonJson, PersonSerializer } from "./Person";
 
 // @TODO abtract into NonEmptySet<T>
 // duplicate with DayList
 export class DuplicatePersonError extends BaseError {}
 export class EmptyPersonListError extends BaseError {}
+export class PersonNotFoundError extends BaseError {}
 
 export class PersonList implements Comparable {
   constructor(public readonly items: readonly Person[]) {
@@ -26,6 +27,16 @@ export class PersonList implements Comparable {
       throw new DuplicatePersonError();
     }
   }
+
+  public readonly getPersonById = (id: PersonId): Person => {
+    const found = this.items.find((_) => _.id.equals(id));
+
+    if (!found) {
+      throw new PersonNotFoundError();
+    }
+
+    return found;
+  };
 
   public readonly equals = (input: this): boolean => {
     return isArrayEqual(this.items, input.items, (a, b) => a.equals(b));

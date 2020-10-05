@@ -5,11 +5,11 @@ import {
   Serializer,
 } from "@tsukiy0/tscore";
 import { Days } from "./Days";
+import { PersonId } from "./Person";
 import { PersonDays, PersonDaysJson, PersonDaysSerializer } from "./PersonDays";
 import { PersonList, PersonListJson, PersonListSerializer } from "./PersonList";
 
 export class CursorGreaterThanTotalDaysError extends BaseError {}
-export class PersonNotFoundError extends BaseError {}
 
 export class PersonRotation implements Comparable {
   constructor(
@@ -22,11 +22,7 @@ export class PersonRotation implements Comparable {
     }
 
     for (const item of rotation) {
-      const person = personList.items.find((_) => _.id.equals(item.personId));
-
-      if (!person) {
-        throw new PersonNotFoundError();
-      }
+      personList.getPersonById(item.personId);
     }
   }
 
@@ -36,6 +32,23 @@ export class PersonRotation implements Comparable {
         return acc + item.days.toNumber();
       }, 0),
     );
+  };
+
+  public readonly getActivePerson = (): PersonId => {
+    const expanded = this.rotation.reduce<readonly PersonId[]>((acc, item) => {
+      const arr = Array.from(
+        { length: item.days.toNumber() },
+        () => item.personId,
+      );
+
+      return [...acc, ...arr];
+    }, []);
+
+    if (expanded.length !== this.getTotalDays().toNumber()) {
+      throw new Error("should equal");
+    }
+
+    return expanded[this.cursor.toNumber() - 1];
   };
 
   public readonly tick = (): PersonRotation => {
