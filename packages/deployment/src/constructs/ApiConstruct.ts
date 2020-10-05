@@ -5,7 +5,7 @@ import {
   Runtime,
 } from "@aws-cdk/aws-lambda";
 import { Construct, Duration } from "@aws-cdk/core";
-import { LambdaRestApi } from "@aws-cdk/aws-apigateway";
+import { Cors, LambdaRestApi } from "@aws-cdk/aws-apigateway";
 import { RetentionDays } from "@aws-cdk/aws-logs";
 import { DatabaseConstruct } from "./DatabaseConstruct";
 
@@ -39,7 +39,8 @@ export class ApiConstruct extends Construct {
     const api = new LambdaRestApi(this, "Api", {
       handler: fn,
       defaultCorsPreflightOptions: {
-        allowOrigins: ["*"],
+        allowOrigins: Cors.ALL_ORIGINS,
+        allowMethods: Cors.ALL_METHODS,
       },
     });
 
