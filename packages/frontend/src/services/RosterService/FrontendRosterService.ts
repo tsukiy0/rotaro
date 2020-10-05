@@ -7,6 +7,7 @@ import {
   RosterSerializer,
   RosterService,
 } from "@rotaro/core";
+import fetch from "isomorphic-fetch";
 import { ApiService } from "../ApiService/ApiService";
 import { FetchApiService } from "../ApiService/FetchApiService";
 

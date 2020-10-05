@@ -31,8 +31,6 @@ export class FetchApiService {
 
     const resBody = await res.json();
 
-    debugger;
-
     if (res.status === 400) {
       const serializer = ErrorSerializerMap.fromName(resBody.name);
 

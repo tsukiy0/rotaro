@@ -145,8 +145,6 @@ export const testRosterRepository = (
 
         const actual = await repo.listRostersByDayAndHour(Day.MONDAY, Hour._02);
 
-        debugger;
-
         expect(actual).toHaveLength(1);
         expect(actual[0].equals(roster2)).toBeTruthy();
       });

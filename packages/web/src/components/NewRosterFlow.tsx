@@ -36,7 +36,6 @@ export const NewRosterFlow: React.FC<BaseProps> = ({ className }) => {
 
   const onCreate = useCallback(async () => {
     try {
-      console.log(personRotation, schedule);
       if (personRotation && schedule) {
         await rosterService.createRoster(
           new Roster(RosterIdRandomizer.random(), personRotation, schedule),
