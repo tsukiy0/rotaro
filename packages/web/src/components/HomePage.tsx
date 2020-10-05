@@ -4,7 +4,6 @@ import React from "react";
 import { BaseProps } from "../models/BaseProps";
 
 export const HomePage: React.FC<BaseProps> = ({ className }) => {
-  const theme = useTheme();
   const router = useRouter();
 
   return (
@@ -16,7 +15,7 @@ export const HomePage: React.FC<BaseProps> = ({ className }) => {
       justifyContent="center"
       alignItems="center"
     >
-      <Stack spacing={4}>
+      <Stack spacing={4} alignItems="center">
         <Box>
           <Heading>Rotaro</Heading>
         </Box>
