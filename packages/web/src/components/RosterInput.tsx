@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/core";
 import { PersonList, PersonRotation, Schedule } from "@rotaro/core";
 import React, { useState } from "react";
 import { BaseProps } from "../models/BaseProps";
-import { PersonListInput } from "./PersonListInput";
+import { PersonListForm } from "./PersonListForm";
 import { PersonRotationInput } from "./PersonRotationInput";
 import { ScheduleInput } from "./ScheduleInput";
 
@@ -18,7 +18,7 @@ export const RosterInput: React.FC<BaseProps<{
 
   return (
     <Box>
-      <PersonListInput value={personList} onChange={setPersonList} />
+      <PersonListForm value={personList} onChange={setPersonList} />
       <ScheduleInput value={schedule} onChange={setSchedule} />
       {personList && (
         <PersonRotationInput
