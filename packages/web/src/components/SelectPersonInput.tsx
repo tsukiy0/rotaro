@@ -5,6 +5,7 @@ import {
   Select,
 } from "@chakra-ui/core";
 import { PersonId, PersonList } from "@rotaro/core";
+import { GuidRandomizer } from "@tsukiy0/tscore";
 import React, { useState } from "react";
 import { BaseProps } from "../models/BaseProps";
 
@@ -13,7 +14,7 @@ export const SelectPersonInput: React.FC<BaseProps<{
   value?: PersonId;
   onChange: (value: PersonId) => void;
 }>> = ({ className, personList, value, onChange }) => {
-  const id = "selectPerson";
+  const id = GuidRandomizer.random().toString();
   const [error, setError] = useState<Error | undefined>();
 
   return (

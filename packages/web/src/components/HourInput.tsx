@@ -17,7 +17,7 @@ export const HourInput: React.FC<BaseProps<{
   const [error, setError] = useState<Error | undefined>();
 
   return (
-    <FormControl className={className}>
+    <FormControl className={className} isInvalid={Boolean(error)}>
       <FormLabel htmlFor={id}>Hour</FormLabel>
       <Select
         id={id}

@@ -5,6 +5,7 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/core";
 import { Person, PersonIdRandomizer } from "@rotaro/core";
+import { GuidRandomizer } from "@tsukiy0/tscore";
 import React, { useState } from "react";
 import { BaseProps } from "../models/BaseProps";
 
@@ -12,7 +13,7 @@ export const PersonInput: React.FC<BaseProps<{
   value?: Person;
   onChange: (value: Person) => void;
 }>> = ({ className, value, onChange }) => {
-  const id = "name";
+  const id = GuidRandomizer.random().toString();
   const [error, setError] = useState<Error | undefined>();
 
   const name = value ? value.name : "";
