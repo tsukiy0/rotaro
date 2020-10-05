@@ -78,27 +78,27 @@ export const PersonListForm: React.FC<BaseProps<{
   return (
     <Stack className={className} spacing={4}>
       <Box>
-        <Card header={<Heading>People</Heading>}>
+        <Card
+          header={<Heading>People</Heading>}
+          footer={
+            <Button
+              onClick={() => {
+                try {
+                  const personList = new PersonList(personListItems);
+                  onChange(personList);
+                } catch (err) {
+                  onError(err);
+                }
+              }}
+            >
+              Submit
+            </Button>
+          }
+        >
           <Stack spacing={4}>
             <Box>{addPersonView}</Box>
             <Box>{personListItemsView}</Box>
           </Stack>
-        </Card>
-      </Box>
-      <Box>
-        <Card>
-          <Button
-            onClick={() => {
-              try {
-                const personList = new PersonList(personListItems);
-                onChange(personList);
-              } catch (err) {
-                onError(err);
-              }
-            }}
-          >
-            Submit
-          </Button>
         </Card>
       </Box>
     </Stack>
