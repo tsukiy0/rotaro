@@ -4,6 +4,7 @@ import { Chakra } from "../contexts/Chakra";
 import { ConfigContextProvider } from "../contexts/ConfigContext/ConfigContext";
 import { ServicesContextProvider } from "../contexts/ServicesContext/ServicesContext";
 import { AlertContextProvider } from "../contexts/AlertContext/AlertContext";
+import { Width } from "../contexts/Width";
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -11,7 +12,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
       <AlertContextProvider>
         <ConfigContextProvider>
           <ServicesContextProvider>
-            <Component {...pageProps} />
+            <Width>
+              <Component {...pageProps} />
+            </Width>
           </ServicesContextProvider>
         </ConfigContextProvider>
       </AlertContextProvider>
