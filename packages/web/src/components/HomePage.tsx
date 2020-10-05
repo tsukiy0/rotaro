@@ -1,9 +1,9 @@
-import { Box, Heading, Stack } from "@chakra-ui/core";
+import { Box, Stack } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import React from "react";
-import { RepeatIcon } from "@chakra-ui/icons";
 import { BaseProps } from "../models/BaseProps";
 import { FullWidthButton } from "./FullWidthButton";
+import { Logo } from "./Logo";
 
 export const HomePage: React.FC<BaseProps> = ({ className }) => {
   const router = useRouter();
@@ -19,27 +19,7 @@ export const HomePage: React.FC<BaseProps> = ({ className }) => {
     >
       <Stack spacing={4} alignItems="center">
         <Box>
-          <RepeatIcon className="spin" boxSize={24} />
-          <style jsx global>{`
-            .spin {
-              animation-name: spin;
-              animation-duration: 5000ms;
-              animation-iteration-count: infinite;
-              animation-timing-function: linear;
-            }
-
-            @keyframes spin {
-              from {
-                transform: rotate(0deg);
-              }
-              to {
-                transform: rotate(360deg);
-              }
-            }
-          `}</style>
-        </Box>
-        <Box>
-          <Heading>Rotaro</Heading>
+          <Logo large />
         </Box>
         <Box>
           <FullWidthButton
