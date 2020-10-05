@@ -38,7 +38,7 @@ export const PersonListForm: React.FC<BaseProps<{
     );
   };
 
-  const addPersonForm = (
+  const addPersonView = (
     <Stack spacing={4}>
       <Box>
         <PersonInput value={person} onChange={setPerson} />
@@ -80,7 +80,7 @@ export const PersonListForm: React.FC<BaseProps<{
       <Box>
         <Card header={<Heading>People</Heading>}>
           <Stack spacing={4}>
-            <Box>{addPersonForm}</Box>
+            <Box>{addPersonView}</Box>
             <Box>{personListItemsView}</Box>
           </Stack>
         </Card>

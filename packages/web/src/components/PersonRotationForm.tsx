@@ -74,6 +74,24 @@ export const PersonRotationForm: React.FC<BaseProps<{
     }
   };
 
+  const addPersonDayView = (
+    <Stack spacing={4}>
+      <Box>
+        <SelectPersonInput
+          personList={personList}
+          value={personId}
+          onChange={setPersonId}
+        />
+      </Box>
+      <Box>
+        <DaysInput label="Days" value={days} onChange={setDays} />
+      </Box>
+      <Box>
+        <Button onClick={onAddPersonDay}>Add</Button>
+      </Box>
+    </Stack>
+  );
+
   const personRotationItemsView = (
     <Stack spacing={4}>
       {personRotationItems.map((_, i) => {
@@ -120,19 +138,7 @@ export const PersonRotationForm: React.FC<BaseProps<{
       footer={<Button onClick={onSubmit}>Submit</Button>}
     >
       <Stack spacing={4}>
-        <Box>
-          <SelectPersonInput
-            personList={personList}
-            value={personId}
-            onChange={setPersonId}
-          />
-        </Box>
-        <Box>
-          <DaysInput label="Days" value={days} onChange={setDays} />
-        </Box>
-        <Box>
-          <Button onClick={onAddPersonDay}>Add</Button>
-        </Box>
+        <Box>{addPersonDayView}</Box>
         <Box>{personRotationItemsView}</Box>
       </Stack>
     </Card>
