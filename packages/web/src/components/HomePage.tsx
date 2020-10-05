@@ -10,7 +10,7 @@ export const HomePage: React.FC<BaseProps> = ({ className }) => {
     <Box
       className={className}
       height="100vh"
-      width="100vw"
+      width="100%"
       display="flex"
       justifyContent="center"
       alignItems="center"
