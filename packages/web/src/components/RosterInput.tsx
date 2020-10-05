@@ -3,7 +3,7 @@ import { PersonList, PersonRotation, Schedule } from "@rotaro/core";
 import React, { useState } from "react";
 import { BaseProps } from "../models/BaseProps";
 import { PersonListForm } from "./PersonListForm";
-import { PersonRotationInput } from "./PersonRotationInput";
+import { PersonRotationForm } from "./PersonRotationForm";
 import { ScheduleForm } from "./ScheduleForm";
 
 export const RosterInput: React.FC<BaseProps<{
@@ -14,14 +14,12 @@ export const RosterInput: React.FC<BaseProps<{
   const [schedule, setSchedule] = useState<Schedule | undefined>();
   const [rotation, setRotation] = useState<PersonRotation | undefined>();
 
-  console.log(schedule);
-
   return (
     <Box>
       <PersonListForm value={personList} onChange={setPersonList} />
       <ScheduleForm value={schedule} onChange={setSchedule} />
       {personList && (
-        <PersonRotationInput
+        <PersonRotationForm
           personList={personList}
           value={rotation}
           onChange={setRotation}

@@ -29,6 +29,7 @@ export const DaysInput: React.FC<BaseProps<{
         id={id}
         value={value?.toNumber()}
         onChange={(e) => {
+          setError(undefined);
           try {
             onChange(new Days(e as number));
           } catch (err) {
@@ -36,7 +37,8 @@ export const DaysInput: React.FC<BaseProps<{
           }
         }}
       >
-        <NumberInputField />
+        {/* @TODO bug with value not syncing with display */}
+        <NumberInputField value={value?.toNumber()} />
         <NumberInputStepper>
           <NumberIncrementStepper />
           <NumberDecrementStepper />
