@@ -1,4 +1,12 @@
-import { Box, CircularProgress, Heading, useTheme } from "@chakra-ui/core";
+import url from "url";
+import {
+  Box,
+  CircularProgress,
+  Heading,
+  Stack,
+  useClipboard,
+  useTheme,
+} from "@chakra-ui/core";
 import {
   PersonList,
   PersonRotation,
@@ -8,7 +16,6 @@ import {
   Schedule,
 } from "@rotaro/core";
 import React, { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { useServices } from "../contexts/ServicesContext/ServicesContext";
@@ -39,6 +46,9 @@ export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
     PersonRotation | undefined
   >();
   const [rosterId, setRosterId] = useState<RosterId | undefined>();
+  const pathUrl = `/roster/${rosterId?.toString()}`;
+  const fullUrl = url.resolve(window.location.href, pathUrl);
+  const { onCopy } = useClipboard(fullUrl);
 
   const onCreate = useCallback(async () => {
     try {
@@ -97,13 +107,19 @@ export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
     ),
     [Step.DONE]: rosterId && (
       <Card header={<Heading>Done</Heading>}>
-        <Box>
-          <FullWidthButton
-            onClick={() => router.push(`/roster/${rosterId.toString()}`)}
-          >
-            View
-          </FullWidthButton>
-        </Box>
+        <Stack spacing={4}>
+          <Box>
+            <FullWidthButton onClick={onCopy}>Copy URL</FullWidthButton>
+          </Box>
+          <Box>
+            <FullWidthButton
+              onClick={() => router.push(pathUrl)}
+              colorScheme="green"
+            >
+              View
+            </FullWidthButton>
+          </Box>
+        </Stack>
       </Card>
     ),
   }[step];
