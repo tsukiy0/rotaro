@@ -1,4 +1,4 @@
-import { Box, Heading, SimpleGrid, Stack } from "@chakra-ui/core";
+import { Box, Heading, Stack } from "@chakra-ui/core";
 import { Person, PersonList } from "@rotaro/core";
 import React, { useState } from "react";
 import { BaseProps } from "../models/BaseProps";
@@ -33,11 +33,15 @@ export const PersonListForm: React.FC<BaseProps<{
           </form>
         </Box>
         <Box>
-          <SimpleGrid>
+          <Stack spacing={4}>
             {existingItems.map((_) => {
-              return <Card key={_.id.toString()}>{_.name}</Card>;
+              return (
+                <Box key={_.id.toString()}>
+                  <Card>{_.name}</Card>
+                </Box>
+              );
             })}
-          </SimpleGrid>
+          </Stack>
         </Box>
       </Stack>
     </Card>
