@@ -129,7 +129,11 @@ export const PersonRotationForm: React.FC<BaseProps<{
     <Card
       className={className}
       header={<Heading>Rotation</Heading>}
-      footer={<FullWidthButton onClick={onSubmit}>Submit</FullWidthButton>}
+      footer={
+        <FullWidthButton onClick={onSubmit} colorScheme="green">
+          Submit
+        </FullWidthButton>
+      }
     >
       <Stack spacing={4}>
         <Box>{addPersonDayView}</Box>

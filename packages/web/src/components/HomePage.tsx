@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Stack } from "@chakra-ui/core";
+import { Box, Heading, Stack } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import React from "react";
 import { RepeatIcon } from "@chakra-ui/icons";
@@ -42,7 +42,10 @@ export const HomePage: React.FC<BaseProps> = ({ className }) => {
           <Heading>Rotaro</Heading>
         </Box>
         <Box>
-          <FullWidthButton onClick={() => router.push("/new")}>
+          <FullWidthButton
+            onClick={() => router.push("/new")}
+            colorScheme="green"
+          >
             Create
           </FullWidthButton>
         </Box>

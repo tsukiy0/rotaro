@@ -26,22 +26,22 @@ export const ScheduleForm: React.FC<BaseProps<{
     }
   }, [value]);
 
+  const onSubmit = () => {
+    try {
+      if (dayList && hour) {
+        onChange(new Schedule(dayList, hour));
+      }
+    } catch (err) {
+      onError(err);
+    }
+  };
+
   return (
     <Card
       className={className}
       header={<Heading>Schedule</Heading>}
       footer={
-        <FullWidthButton
-          onClick={() => {
-            try {
-              if (dayList && hour) {
-                onChange(new Schedule(dayList, hour));
-              }
-            } catch (err) {
-              onError(err);
-            }
-          }}
-        >
+        <FullWidthButton onClick={onSubmit} colorScheme="green">
           Submit
         </FullWidthButton>
       }

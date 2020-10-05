@@ -50,6 +50,15 @@ export const PersonListForm: React.FC<BaseProps<{
     </Stack>
   );
 
+  const onSubmit = () => {
+    try {
+      const personList = new PersonList(personListItems);
+      onChange(personList);
+    } catch (err) {
+      onError(err);
+    }
+  };
+
   const personListItemsView = (
     <Stack spacing={4}>
       {personListItems.map((_) => {
@@ -82,16 +91,7 @@ export const PersonListForm: React.FC<BaseProps<{
         <Card
           header={<Heading>People</Heading>}
           footer={
-            <FullWidthButton
-              onClick={() => {
-                try {
-                  const personList = new PersonList(personListItems);
-                  onChange(personList);
-                } catch (err) {
-                  onError(err);
-                }
-              }}
-            >
+            <FullWidthButton onClick={onSubmit} colorScheme="green">
               Submit
             </FullWidthButton>
           }

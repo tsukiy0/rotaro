@@ -9,6 +9,7 @@ import {
 } from "@rotaro/core";
 import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { useServices } from "../contexts/ServicesContext/ServicesContext";
 import { BaseProps } from "../models/BaseProps";
@@ -16,6 +17,7 @@ import { Card } from "./Card";
 import { PersonListForm } from "./PersonListForm";
 import { PersonRotationForm } from "./PersonRotationForm";
 import { ScheduleForm } from "./ScheduleForm";
+import { FullWidthButton } from "./FullWidthButton";
 
 enum Step {
   PERSON_LIST,
@@ -27,6 +29,7 @@ enum Step {
 
 export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
   const theme = useTheme();
+  const router = useRouter();
   const { onError } = useAlert();
   const { rosterService } = useServices();
   const [step, setStep] = useState<Step>(Step.PERSON_LIST);
@@ -94,11 +97,12 @@ export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
     ),
     [Step.DONE]: rosterId && (
       <Card header={<Heading>Done</Heading>}>
-        <Box>Find your roster id here</Box>
         <Box>
-          <Link href={`/roster/${rosterId.toString()}`}>
-            {rosterId.toString()}
-          </Link>
+          <FullWidthButton
+            onClick={() => router.push(`/roster/${rosterId.toString()}`)}
+          >
+            View
+          </FullWidthButton>
         </Box>
       </Card>
     ),
