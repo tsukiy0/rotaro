@@ -1,10 +1,11 @@
-import { Box, Button, Heading, Stack } from "@chakra-ui/core";
+import { Box, Heading, Stack } from "@chakra-ui/core";
 import { DayList, Hour, Schedule } from "@rotaro/core";
 import React, { useEffect, useState } from "react";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { BaseProps } from "../models/BaseProps";
 import { Card } from "./Card";
 import { DayListInput } from "./DayListInput";
+import { FullWidthButton } from "./FullWidthButton";
 import { HourInput } from "./HourInput";
 
 export const ScheduleForm: React.FC<BaseProps<{
@@ -30,7 +31,7 @@ export const ScheduleForm: React.FC<BaseProps<{
       className={className}
       header={<Heading>Schedule</Heading>}
       footer={
-        <Button
+        <FullWidthButton
           onClick={() => {
             try {
               if (dayList && hour) {
@@ -42,7 +43,7 @@ export const ScheduleForm: React.FC<BaseProps<{
           }}
         >
           Submit
-        </Button>
+        </FullWidthButton>
       }
     >
       <Stack spacing={4}>

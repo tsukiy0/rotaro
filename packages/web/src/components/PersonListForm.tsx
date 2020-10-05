@@ -1,4 +1,4 @@
-import { Box, Button, Heading, IconButton, Stack } from "@chakra-ui/core";
+import { Box, Heading, IconButton, Stack } from "@chakra-ui/core";
 import { Person, PersonId, PersonList } from "@rotaro/core";
 import React, { useEffect, useState } from "react";
 import { CloseIcon } from "@chakra-ui/icons";
@@ -6,6 +6,7 @@ import { useAlert } from "../contexts/AlertContext/AlertContext";
 import { BaseProps } from "../models/BaseProps";
 import { Card, CardHeader } from "./Card";
 import { PersonInput } from "./PersonInput";
+import { FullWidthButton } from "./FullWidthButton";
 
 export const PersonListForm: React.FC<BaseProps<{
   value?: PersonList;
@@ -44,7 +45,7 @@ export const PersonListForm: React.FC<BaseProps<{
         <PersonInput value={person} onChange={setPerson} />
       </Box>
       <Box>
-        <Button onClick={onAddPerson}>Add</Button>
+        <FullWidthButton onClick={onAddPerson}>Add</FullWidthButton>
       </Box>
     </Stack>
   );
@@ -81,7 +82,7 @@ export const PersonListForm: React.FC<BaseProps<{
         <Card
           header={<Heading>People</Heading>}
           footer={
-            <Button
+            <FullWidthButton
               onClick={() => {
                 try {
                   const personList = new PersonList(personListItems);
@@ -92,7 +93,7 @@ export const PersonListForm: React.FC<BaseProps<{
               }}
             >
               Submit
-            </Button>
+            </FullWidthButton>
           }
         >
           <Stack spacing={4}>

@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Heading,
-  IconButton,
-  Stack,
-  Badge,
-} from "@chakra-ui/core";
+import { Box, Heading, IconButton, Stack, Badge } from "@chakra-ui/core";
 import {
   Days,
   PersonDays,
@@ -20,6 +13,7 @@ import { BaseProps } from "../models/BaseProps";
 import { Card, CardHeader } from "./Card";
 import { DaysInput } from "./DaysInput";
 import { SelectPersonInput } from "./SelectPersonInput";
+import { FullWidthButton } from "./FullWidthButton";
 
 export const PersonRotationForm: React.FC<BaseProps<{
   personList: PersonList;
@@ -87,7 +81,7 @@ export const PersonRotationForm: React.FC<BaseProps<{
         <DaysInput label="Days" value={days} onChange={setDays} />
       </Box>
       <Box>
-        <Button onClick={onAddPersonDay}>Add</Button>
+        <FullWidthButton onClick={onAddPersonDay}>Add</FullWidthButton>
       </Box>
     </Stack>
   );
@@ -135,7 +129,7 @@ export const PersonRotationForm: React.FC<BaseProps<{
     <Card
       className={className}
       header={<Heading>Rotation</Heading>}
-      footer={<Button onClick={onSubmit}>Submit</Button>}
+      footer={<FullWidthButton onClick={onSubmit}>Submit</FullWidthButton>}
     >
       <Stack spacing={4}>
         <Box>{addPersonDayView}</Box>

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { RepeatIcon } from "@chakra-ui/icons";
 import { BaseProps } from "../models/BaseProps";
+import { FullWidthButton } from "./FullWidthButton";
 
 export const HomePage: React.FC<BaseProps> = ({ className }) => {
   const router = useRouter();
@@ -41,7 +42,9 @@ export const HomePage: React.FC<BaseProps> = ({ className }) => {
           <Heading>Rotaro</Heading>
         </Box>
         <Box>
-          <Button onClick={() => router.push("/new")}>Create</Button>
+          <FullWidthButton onClick={() => router.push("/new")}>
+            Create
+          </FullWidthButton>
         </Box>
       </Stack>
     </Box>
