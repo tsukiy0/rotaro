@@ -1,4 +1,4 @@
-import { Box, Heading, useTheme } from "@chakra-ui/core";
+import { Box, Heading, Icon, useTheme } from "@chakra-ui/core";
 import { Roster, RosterId } from "@rotaro/core";
 import React, { useEffect, useState } from "react";
 import { useAlert } from "../contexts/AlertContext/AlertContext";
@@ -44,13 +44,23 @@ export const ReadRosterPage: React.FC<BaseProps<{
               justifyContent="space-between"
               alignItems="center"
             >
-              <Heading as="h1" size="md">
-                {
-                  roster.rotation.personList.items.find((person) =>
-                    person.id.equals(_.personId),
-                  )?.name
-                }
-              </Heading>
+              <Box
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Heading as="h1" size="md" marginRight={theme.space[4]}>
+                  {
+                    roster.rotation.personList.items.find((person) =>
+                      person.id.equals(_.personId),
+                    )?.name
+                  }
+                </Heading>
+                {roster.rotation.getActivePerson().equals(_.personId) && (
+                  <Icon name="check-circle" color={theme.colors.green[400]} />
+                )}
+              </Box>
               <Heading as="h2" size="sm">
                 {_.days.toNumber()}
               </Heading>
