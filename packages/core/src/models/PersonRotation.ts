@@ -34,12 +34,19 @@ export class PersonRotation implements Comparable {
     );
   };
 
-  public readonly getActivePerson = (): PersonId => {
-    const expanded = this.rotation.reduce<readonly PersonId[]>((acc, item) => {
-      const arr = Array.from(
-        { length: item.days.toNumber() },
-        () => item.personId,
-      );
+  public readonly getActiveIndex = (): number => {
+    const expanded = this.rotation.reduce<
+      readonly {
+        id: PersonId;
+        index: number;
+      }[]
+    >((acc, item, i) => {
+      const arr = Array.from({ length: item.days.toNumber() }, () => {
+        return {
+          id: item.personId,
+          index: i,
+        };
+      });
 
       return [...acc, ...arr];
     }, []);
@@ -48,7 +55,7 @@ export class PersonRotation implements Comparable {
       throw new Error("should equal");
     }
 
-    return expanded[this.cursor.toNumber() - 1];
+    return expanded[this.cursor.toNumber() - 1].index;
   };
 
   public readonly tick = (): PersonRotation => {

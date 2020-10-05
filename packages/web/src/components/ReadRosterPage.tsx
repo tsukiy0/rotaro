@@ -59,9 +59,7 @@ export const ReadRosterPage: React.FC<BaseProps<{
                     }
                     right={
                       <Box>
-                        {roster.rotation
-                          .getActivePerson()
-                          .equals(_.personId) && (
+                        {roster.rotation.getActiveIndex() === i && (
                           <CheckCircleIcon color={theme.colors.green[400]} />
                         )}
                       </Box>

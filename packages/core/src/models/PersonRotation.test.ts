@@ -89,7 +89,7 @@ describe("PersonRotation", () => {
     });
   });
 
-  describe("getActivePerson", () => {
+  describe("getActiveIndex", () => {
     it("gets active", () => {
       const personId1 = PersonIdRandomizer.random();
       const personId2 = PersonIdRandomizer.random();
@@ -108,9 +108,26 @@ describe("PersonRotation", () => {
         new Days(6),
       );
 
-      const actual = rotation.getActivePerson();
+      const actual = rotation.getActiveIndex();
 
-      expect(actual.equals(personId3)).toBeTruthy();
+      expect(actual).toEqual(2);
+    });
+
+    it("gets active when all same id", () => {
+      const personId = PersonIdRandomizer.random();
+      const rotation = new PersonRotation(
+        new PersonList([new Person(personId, "bob")]),
+        [
+          new PersonDays(personId, new Days(2)),
+          new PersonDays(personId, new Days(3)),
+          new PersonDays(personId, new Days(4)),
+        ],
+        new Days(6),
+      );
+
+      const actual = rotation.getActiveIndex();
+
+      expect(actual).toEqual(2);
     });
   });
 
