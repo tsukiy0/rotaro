@@ -28,7 +28,7 @@ export class TickerService {
     // better move this to a queue
     await Promise.all(
       rosters.map(async (_) => {
-        this.rosterService.tickRoster(_.id);
+        await this.rosterService.tickRoster(_.id);
       }),
     );
   };
