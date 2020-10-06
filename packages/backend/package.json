@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@rotaro/core": "*",
-    "@tsukiy0/tscore": "1.0.0",
+    "@tsukiy0/tscore": "1.1.0",
     "aws-sdk": "2.767.0"
   },
   "scripts": {

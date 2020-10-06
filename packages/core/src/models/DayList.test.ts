@@ -1,5 +1,7 @@
-import { testComparable } from "@tsukiy0/tscore/dist/models/Comparable.testTemplate";
-import { testSerializer } from "@tsukiy0/tscore/dist/models/Serializer.testTemplate";
+import {
+  testComparable,
+  testSerializer,
+} from "@tsukiy0/tscore/dist/index.testTemplate";
 import { Day } from "./Day";
 import {
   DayList,

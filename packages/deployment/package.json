@@ -20,7 +20,7 @@
     "@aws-cdk/aws-s3": "1.66.0",
     "@aws-cdk/aws-s3-deployment": "1.66.0",
     "@aws-cdk/core": "1.66.0",
-    "@tsukiy0/tscore": "1.0.0"
+    "@tsukiy0/tscore": "1.1.0"
   },
   "scripts": {
     "typecheck": "tsc",

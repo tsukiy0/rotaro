@@ -1,4 +1,4 @@
-import { testComparable } from "@tsukiy0/tscore/dist/models/Comparable.testTemplate";
+import { testComparable } from "@tsukiy0/tscore/dist/index.testTemplate";
 import { Days, DaysMustBeGreaterThanZeroError } from "./Days";
 
 describe("Days", () => {
