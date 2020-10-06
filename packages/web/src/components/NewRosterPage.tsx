@@ -5,7 +5,6 @@ import {
   Heading,
   Stack,
   useClipboard,
-  useTheme,
 } from "@chakra-ui/core";
 import {
   PersonList,
@@ -35,7 +34,6 @@ enum Step {
 }
 
 export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
-  const theme = useTheme();
   const router = useRouter();
   const { onError } = useAlert();
   const { rosterService } = useServices();
@@ -46,9 +44,12 @@ export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
     PersonRotation | undefined
   >();
   const [rosterId, setRosterId] = useState<RosterId | undefined>();
-  const pathUrl = `/roster/${rosterId?.toString()}`;
-  const fullUrl = url.resolve(window.location.href, pathUrl);
-  const { onCopy } = useClipboard(fullUrl);
+  const getFullUrl = () => {
+    const fullUrl = new URL(url.resolve(window.location.href, "/roster"));
+    fullUrl.searchParams.append("id", rosterId?.toString() as string);
+    return fullUrl.toString();
+  };
+  const { onCopy } = useClipboard(getFullUrl());
 
   const onCreate = useCallback(async () => {
     try {
@@ -113,7 +114,14 @@ export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
           </Box>
           <Box>
             <FullWidthButton
-              onClick={() => router.push(pathUrl)}
+              onClick={() =>
+                router.push({
+                  pathname: "/roster",
+                  query: {
+                    id: rosterId.toString(),
+                  },
+                })
+              }
               colorScheme="green"
             >
               View

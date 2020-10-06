@@ -24,7 +24,10 @@ export const NavBar = React.forwardRef<HTMLDivElement, BaseProps>(
           <Logo />
         </Box>
         <Box>
-          <Button colorScheme="green" onClick={() => router.push("/new")}>
+          <Button
+            colorScheme="green"
+            onClick={() => router.push("/roster/new")}
+          >
             Create
           </Button>
         </Box>

@@ -20,7 +20,10 @@ export const HomePage: React.FC<BaseProps> = ({ className }) => {
           <Heading textAlign="center">Build simple rotating rosters.</Heading>
         </Box>
         <Box>
-          <Button onClick={() => router.push("/new")} colorScheme="green">
+          <Button
+            onClick={() => router.push("/roster/new")}
+            colorScheme="green"
+          >
             Create
           </Button>
         </Box>

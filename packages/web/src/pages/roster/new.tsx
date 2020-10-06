@@ -1,5 +1,5 @@
 import React from "react";
-import { NewRosterPage } from "../components/NewRosterPage";
+import { NewRosterPage } from "../../components/NewRosterPage";
 
 const New: React.FC = () => {
   return <NewRosterPage />;
