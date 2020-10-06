@@ -45,7 +45,7 @@ export const NewRosterPage: React.FC<BaseProps> = ({ className }) => {
   >();
   const [rosterId, setRosterId] = useState<RosterId | undefined>();
   const getFullUrl = () => {
-    const fullUrl = new URL(url.resolve(window.location.href, "/roster"));
+    const fullUrl = new URL(url.resolve(window.location.href, "/roster/"));
     fullUrl.searchParams.append("id", rosterId?.toString() as string);
     return fullUrl.toString();
   };
