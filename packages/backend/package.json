@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@rotaro/core": "*",
-    "@tsukiy0/tscore": "1.1.0",
-    "aws-sdk": "2.767.0"
+    "@tsukiy0/tscore": "1.1.1",
+    "aws-sdk": "2.770.0"
   },
   "scripts": {
     "typecheck": "tsc",

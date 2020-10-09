@@ -20,7 +20,7 @@
   "dependencies": {
     "@rotaro/backend": "*",
     "@rotaro/core": "*",
-    "@tsukiy0/tscore": "1.1.0",
+    "@tsukiy0/tscore": "1.1.1",
     "aws-serverless-express": "3.3.8",
     "body-parser": "1.19.0",
     "cors": "2.8.5",
